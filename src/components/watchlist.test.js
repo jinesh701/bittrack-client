@@ -5,6 +5,6 @@ import Watchlist from './watchlist';
 
 describe('<Watchlist />', () => {
   it('Renders without crashing', () => {
-    shallow(<Watchlist >);
+    shallow(<Watchlist />);
   });
 });
