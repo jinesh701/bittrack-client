@@ -1,5 +1,12 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import App from "./App";
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
+import Watchlist from './components/watchlist';
+import store from './store';
 
-ReactDOM.render(<App />, document.getElementById("root"));
+ReactDOM.render(
+  <Provider store={store}>
+    <Watchlist />
+  </Provider>,
+  document.getElementById('root')
+);
