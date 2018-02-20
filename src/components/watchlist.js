@@ -1,16 +1,13 @@
-import React, { Component } from "react";
+import React from 'react';
 
-class App extends Component {
+export class Watchlist extends React.Component {
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">Test</p>
+      <div>
+        <h1>Watchlist</h1>
       </div>
     );
   }
 }
 
-export default App;
+export default Watchlist;
