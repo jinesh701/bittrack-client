@@ -1,5 +1,8 @@
-const initialState = {};
+import { combineReducers } from 'redux';
+import watchlist from './watchlistReducer';
 
-export const reducer = (state = initialState, action) => {
-  return state;
-};
+const rootReducer = combineReducers({
+  watchlist
+});
+
+export default rootReducer;
