@@ -1,6 +1,7 @@
 import React from 'react';
-import AutoComplete from 'material-ui/AutoComplete';
+import { connect } from 'react-redux';
 import RaisedButton from 'material-ui/RaisedButton';
+import { addCoinToWatchlist } from '../actions';
 
 import {
   Table,
@@ -19,6 +20,7 @@ const buttonStyle = {
 
 const coins = [
   {
+    id: 'bitcoin',
     name: 'Bitcoin',
     symbol: 'BTC',
     price_usd: '11569.0',
@@ -29,6 +31,7 @@ const coins = [
     percent_change_7d: '32.43'
   },
   {
+    id: 'ethereum',
     name: 'Ethereum',
     symbol: 'ETH',
     price_usd: '951.902',
@@ -39,6 +42,7 @@ const coins = [
     percent_change_7d: '11.83'
   },
   {
+    id: 'ripple',
     name: 'Ripple',
     symbol: 'XRP',
     price_usd: '1.15004',
@@ -49,6 +53,7 @@ const coins = [
     percent_change_7d: '8.45'
   },
   {
+    id: 'bitcoin-cash',
     name: 'Bitcoin Cash',
     symbol: 'BCH',
     price_usd: '1541.49',
@@ -59,6 +64,7 @@ const coins = [
     percent_change_7d: '23.92'
   },
   {
+    id: 'litecoin',
     name: 'Litecoin',
     symbol: 'LTC',
     price_usd: '245.132',
@@ -70,51 +76,47 @@ const coins = [
   }
 ];
 
-const dsConfig = {
-  text: 'symbol'
-};
-
-export class Watchlist extends React.Component {
+class Watchlist extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      watchlist: []
+      watchlist: { name: '' }
     };
+
+    this.onCoinAdd = this.onCoinAdd.bind(this);
+    this.onClickSave = this.onClickSave.bind(this);
   }
 
-  componentDidMount() {
-    this.setState({ watchlist: coins });
+  onCoinAdd(event) {
+    const watchlist = this.state.watchlist;
+    watchlist.name = event.target.value;
+    this.setState({ watchlist: watchlist });
+  }
+
+  onClickSave() {
+    this.props.dispatch(addCoinToWatchlist(this.state.watchlist));
+  }
+
+  watchlistRow(watchlist, index) {
+    return (
+      <TableRow key={index}>
+        <TableRowColumn>{watchlist.name}</TableRowColumn>
+      </TableRow>
+    );
   }
 
   render() {
-    const cryptowatchlist = this.state.watchlist.map((item, index) => (
-      <TableRow key={index}>
-        <TableRowColumn>{item.name}</TableRowColumn>
-        <TableRowColumn>${item.price_usd}</TableRowColumn>
-        <TableRowColumn>฿{item.price_btc}</TableRowColumn>
-        <TableRowColumn>{item.percent_change_1h}%</TableRowColumn>
-        <TableRowColumn>{item.percent_change_24h}%</TableRowColumn>
-        <TableRowColumn>{item.percent_change_7d}%</TableRowColumn>
-        <TableRowColumn>${item.volume_usd}</TableRowColumn>
-        <TableRowColumn>2/20/2018</TableRowColumn>
-      </TableRow>
-    ));
-
     return (
       <div>
         <h2>Watchlist</h2>
-        <AutoComplete
-          floatingLabelText="Coin Name"
-          filter={AutoComplete.fuzzyFilter}
-          dataSourceConfig={dsConfig}
-          dataSource={coins}
-          maxSearchResults={5}
-        />
+        <input value={this.state.watchlist.name} onChange={this.onCoinAdd} />
+
         <RaisedButton
           label="Add Coin"
           style={buttonStyle}
           labelStyle={buttonStyle}
+          onClick={this.onClickSave}
         />
         <Table>
           <TableHeader>
@@ -129,11 +131,17 @@ export class Watchlist extends React.Component {
               <TableHeaderColumn>Date Added</TableHeaderColumn>
             </TableRow>
           </TableHeader>
-          <TableBody>{cryptowatchlist}</TableBody>
+          <TableBody>{this.props.watchlist.map(this.watchlistRow)}</TableBody>
         </Table>
       </div>
     );
   }
 }
 
-export default Watchlist;
+function mapStateToProps(state) {
+  return {
+    watchlist: state.watchlist
+  };
+}
+
+export default connect(mapStateToProps)(Watchlist);
