@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import RaisedButton from 'material-ui/RaisedButton';
-import { addCoinToWatchlist, fetchCoins } from '../actions';
+import { fetchCoins } from '../actions';
 
 import {
   Table,
@@ -23,47 +23,62 @@ class Watchlist extends React.Component {
     super(props);
 
     this.state = {
-      watchlist: { name: '' }
+      cryptoData: this.props.cryptoData
     };
 
-    this.onCoinAdd = this.onCoinAdd.bind(this);
-    this.onClickSave = this.onClickSave.bind(this);
-  }
-
-  componentDidMount() {
-    this.props.fetchCoins('bitcoin');
-  }
-
-  onCoinAdd(event) {
-    const watchlist = this.state.watchlist;
-    watchlist.name = event.target.value;
-    this.setState({ watchlist: watchlist });
-  }
-
-  onClickSave() {
-    this.props.fetchCoins(this.state.watchlist) &&
-      this.props.addCoinToWatchlist(this.state.watchlist);
+    this.focusTextInput = this.focusTextInput.bind(this);
   }
 
   watchlistRow(watchlist, index) {
+    let today = new Date();
+    let dd = today.getDate();
+    let mm = today.getMonth() + 1;
+    let yyyy = today.getFullYear();
+
+    if (dd < 10) {
+      dd = '0' + dd;
+    }
+
+    if (mm < 10) {
+      mm = '0' + mm;
+    }
+    today = mm + '/' + dd + '/' + yyyy;
+
     return (
       <TableRow key={index}>
         <TableRowColumn>{watchlist.name}</TableRowColumn>
+        <TableRowColumn>${watchlist.price_usd}</TableRowColumn>
+        <TableRowColumn>฿{watchlist.price_btc}</TableRowColumn>
+        <TableRowColumn>{watchlist.percent_change_1h}%</TableRowColumn>
+        <TableRowColumn>{watchlist.percent_change_24h}%</TableRowColumn>
+        <TableRowColumn>{watchlist.percent_change_7d}%</TableRowColumn>
+        <TableRowColumn>test</TableRowColumn>
+        <TableRowColumn>{today}</TableRowColumn>
       </TableRow>
     );
+  }
+
+  focusTextInput() {
+    this.textInput.focus();
+    this.props.fetchCoins(this.textInput.value);
+    this.textInput.value = '';
   }
 
   render() {
     return (
       <div>
         <h2>Watchlist</h2>
-        <input value={this.state.watchlist.name} onChange={this.onCoinAdd} />
+        <input
+          ref={input => {
+            this.textInput = input;
+          }}
+        />
 
         <RaisedButton
           label="Add Coin"
           style={buttonStyle}
           labelStyle={buttonStyle}
-          onClick={this.onClickSave}
+          onClick={this.focusTextInput}
         />
         <Table>
           <TableHeader>
@@ -89,6 +104,4 @@ const mapStateToProps = state => ({
   watchlist: state.watchlist
 });
 
-export default connect(mapStateToProps, { fetchCoins, addCoinToWatchlist })(
-  Watchlist
-);
+export default connect(mapStateToProps, { fetchCoins })(Watchlist);
