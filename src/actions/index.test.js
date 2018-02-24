@@ -1,10 +1,11 @@
-import { ADD_COIN_TO_WATCHLIST, addCoinToWatchlist } from './index';
+import { FETCH_COIN_SUCCESS, fetchCoinSuccess, fetchCoins } from './index';
+const topCoinsJson = require('../topCoinsJson.json');
 
-describe('addCoinToWatchList', () => {
+describe('fetchCoinSuccess', () => {
   it('Should return the action', () => {
-    const coin = 'btc';
-    const action = addCoinToWatchlist(coin);
-    expect(action.type).toEqual(ADD_COIN_TO_WATCHLIST);
-    expect(action.coin).toEqual('btc');
+    const coin = 'bitcoin';
+    const action = fetchCoinSuccess(coin);
+    expect(action.type).toEqual('FETCH_COIN_SUCCESS');
+    expect(action.cryptoData).toEqual(coin);
   });
 });
