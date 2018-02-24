@@ -1,6 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import RaisedButton from 'material-ui/RaisedButton';
+import VirtualizedSelect from 'react-virtualized-select';
+import 'react-select/dist/react-select.css';
+import 'react-virtualized/styles.css';
+import 'react-virtualized-select/styles.css';
 import { fetchCoins } from '../actions';
 
 import {
@@ -11,6 +15,8 @@ import {
   TableRow,
   TableRowColumn
 } from 'material-ui/Table';
+
+const topCoinsJson = require('../topCoinsJson.json');
 
 const buttonStyle = {
   fontSize: 10,
@@ -26,7 +32,7 @@ class Watchlist extends React.Component {
       cryptoData: this.props.cryptoData
     };
 
-    this.focusTextInput = this.focusTextInput.bind(this);
+    this.fetchCoin = this.fetchCoin.bind(this);
   }
 
   watchlistRow(watchlist, index) {
@@ -58,27 +64,33 @@ class Watchlist extends React.Component {
     );
   }
 
-  focusTextInput() {
-    this.textInput.focus();
-    this.props.fetchCoins(this.textInput.value);
-    this.textInput.value = '';
+  fetchCoin() {
+    this.props.fetchCoins(this.state.selectValue);
+    this.setState({ selectValue: '' });
   }
 
   render() {
+    let options = topCoinsJson;
     return (
       <div>
         <h2>Watchlist</h2>
-        <input
-          ref={input => {
-            this.textInput = input;
-          }}
+
+        <VirtualizedSelect
+          options={options}
+          simpleValue
+          clearable
+          searchable
+          labelKey="symbol"
+          valueKey="id"
+          onChange={selectValue => this.setState({ selectValue })}
+          value={this.state.selectValue}
         />
 
         <RaisedButton
           label="Add Coin"
           style={buttonStyle}
           labelStyle={buttonStyle}
-          onClick={this.focusTextInput}
+          onClick={this.fetchCoin}
         />
         <Table>
           <TableHeader>
