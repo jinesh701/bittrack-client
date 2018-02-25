@@ -28,11 +28,14 @@ class Watchlist extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      cryptoData: this.props.cryptoData
-    };
+    this.state = {};
 
     this.fetchCoin = this.fetchCoin.bind(this);
+  }
+
+  fetchCoin() {
+    this.props.fetchCoins(this.state.selectValue);
+    this.setState({ selectValue: '' });
   }
 
   watchlistRow(watchlist, index) {
@@ -62,11 +65,6 @@ class Watchlist extends React.Component {
         <TableRowColumn>{today}</TableRowColumn>
       </TableRow>
     );
-  }
-
-  fetchCoin() {
-    this.props.fetchCoins(this.state.selectValue);
-    this.setState({ selectValue: '' });
   }
 
   render() {
