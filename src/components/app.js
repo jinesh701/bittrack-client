@@ -1,10 +1,14 @@
 import React from 'react';
-import Watchlist from './watchlist';
+import WatchlistCardExpandable from './watchlist-card';
 import { connect } from 'react-redux';
 
 class App extends React.Component {
   render() {
-    return <Watchlist />;
+    return (
+      <div>
+        <WatchlistCardExpandable />
+      </div>
+    );
   }
 }
 
