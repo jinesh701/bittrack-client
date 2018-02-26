@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import RaisedButton from 'material-ui/RaisedButton';
+import Paper from 'material-ui/Paper';
 import VirtualizedSelect from 'react-virtualized-select';
 import 'react-select/dist/react-select.css';
 import 'react-virtualized/styles.css';
@@ -55,14 +56,22 @@ class Watchlist extends React.Component {
 
     return (
       <TableRow key={index}>
-        <TableRowColumn>{watchlist.name}</TableRowColumn>
-        <TableRowColumn>${watchlist.price_usd}</TableRowColumn>
-        <TableRowColumn>฿{watchlist.price_btc}</TableRowColumn>
-        <TableRowColumn>{watchlist.percent_change_1h}%</TableRowColumn>
-        <TableRowColumn>{watchlist.percent_change_24h}%</TableRowColumn>
-        <TableRowColumn>{watchlist.percent_change_7d}%</TableRowColumn>
-        <TableRowColumn>test</TableRowColumn>
-        <TableRowColumn>{today}</TableRowColumn>
+        <TableRowColumn width={100}>{watchlist.name}</TableRowColumn>
+        <TableRowColumn width={100}>${watchlist.price_usd}</TableRowColumn>
+        <TableRowColumn width={100}>฿{watchlist.price_btc}</TableRowColumn>
+        <TableRowColumn width={100}>
+          {watchlist.percent_change_1h}%
+        </TableRowColumn>
+        <TableRowColumn width={100}>
+          {watchlist.percent_change_24h}%
+        </TableRowColumn>
+        <TableRowColumn width={100}>
+          {watchlist.percent_change_7d}%
+        </TableRowColumn>
+        <TableRowColumn width={100}>
+          ${watchlist['24h_volume_usd']}
+        </TableRowColumn>
+        <TableRowColumn width={100}>{today}</TableRowColumn>
       </TableRow>
     );
   }
@@ -90,21 +99,30 @@ class Watchlist extends React.Component {
           labelStyle={buttonStyle}
           onClick={this.fetchCoin}
         />
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHeaderColumn>Name</TableHeaderColumn>
-              <TableHeaderColumn>Price (USD)</TableHeaderColumn>
-              <TableHeaderColumn>Price (BTC)</TableHeaderColumn>
-              <TableHeaderColumn>Change (1 Hr)</TableHeaderColumn>
-              <TableHeaderColumn>Change (24 Hr)</TableHeaderColumn>
-              <TableHeaderColumn>Change (7 Day)</TableHeaderColumn>
-              <TableHeaderColumn>Volume (24 Hr)</TableHeaderColumn>
-              <TableHeaderColumn>Date Added</TableHeaderColumn>
-            </TableRow>
-          </TableHeader>
-          <TableBody>{this.props.watchlist.map(this.watchlistRow)}</TableBody>
-        </Table>
+
+        <Paper>
+          <Table fixedHeader={false}>
+            <TableHeader>
+              <TableRow>
+                <TableHeaderColumn width={100}>Name</TableHeaderColumn>
+                <TableHeaderColumn width={100}>Price (USD)</TableHeaderColumn>
+                <TableHeaderColumn width={100}>Price (BTC)</TableHeaderColumn>
+                <TableHeaderColumn width={100}>Change (1 Hr)</TableHeaderColumn>
+                <TableHeaderColumn width={100}>
+                  Change (24 Hr)
+                </TableHeaderColumn>
+                <TableHeaderColumn width={100}>
+                  Change (7 Day)
+                </TableHeaderColumn>
+                <TableHeaderColumn width={100}>
+                  Volume (24 Hr)
+                </TableHeaderColumn>
+                <TableHeaderColumn width={100}>Date Added</TableHeaderColumn>
+              </TableRow>
+            </TableHeader>
+            <TableBody>{this.props.watchlist.map(this.watchlistRow)}</TableBody>
+          </Table>
+        </Paper>
       </div>
     );
   }
