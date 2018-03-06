@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 export const FETCH_SAVED_COINS = 'FETCH_SAVED_COINS';
 export const fetchSavedCoins = savedCoins => ({
   type: FETCH_SAVED_COINS,
@@ -11,19 +13,16 @@ export const fetchCoinSuccess = cryptoData => ({
 });
 
 export const fetchSavedWatchlist = () => dispatch => {
-  return fetch('https://floating-harbor-45364.herokuapp.com/api/watchlist')
-    .then(res => res.json())
+  return axios
+    .get('http://localhost:8080/api/watchlist')
+    .then(res => res.data)
     .then(watchlist => dispatch(fetchSavedCoins(watchlist)));
 };
 
 export const fetchCoins = coinName => dispatch => {
-  return fetch(`https://api.coinmarketcap.com/v1/ticker/`)
-    .then(res => res.json())
-    .then(result =>
-      result.find(element => {
-        return element.id === coinName;
-      })
-    )
+  axios
+    .post(`http://localhost:8080/api/watchlist/${coinName}`)
+    .then(res => res.data)
     .then(coin => {
       dispatch(fetchCoinSuccess(coin));
     });
