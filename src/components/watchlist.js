@@ -6,7 +6,7 @@ import VirtualizedSelect from 'react-virtualized-select';
 import 'react-select/dist/react-select.css';
 import 'react-virtualized/styles.css';
 import 'react-virtualized-select/styles.css';
-import { fetchCoins } from '../actions';
+import { fetchCoins, fetchSavedWatchlist } from '../actions';
 
 import {
   Table,
@@ -34,26 +34,16 @@ class Watchlist extends React.Component {
     this.fetchCoin = this.fetchCoin.bind(this);
   }
 
+  componentDidMount() {
+    this.props.fetchSavedWatchlist();
+  }
+
   fetchCoin() {
     this.props.fetchCoins(this.state.selectValue);
     this.setState({ selectValue: '' });
   }
 
   watchlistRow(watchlist, index) {
-    let today = new Date();
-    let dd = today.getDate();
-    let mm = today.getMonth() + 1;
-    let yyyy = today.getFullYear();
-
-    if (dd < 10) {
-      dd = '0' + dd;
-    }
-
-    if (mm < 10) {
-      mm = '0' + mm;
-    }
-    today = mm + '/' + dd + '/' + yyyy;
-
     return (
       <TableRow key={index}>
         <TableRowColumn width={100}>{watchlist.name}</TableRowColumn>
@@ -71,7 +61,6 @@ class Watchlist extends React.Component {
         <TableRowColumn width={100}>
           ${watchlist['24h_volume_usd']}
         </TableRowColumn>
-        <TableRowColumn width={100}>{today}</TableRowColumn>
       </TableRow>
     );
   }
@@ -80,8 +69,6 @@ class Watchlist extends React.Component {
     let options = topCoinsJson;
     return (
       <div>
-        <h2>Watchlist</h2>
-
         <VirtualizedSelect
           options={options}
           simpleValue
@@ -117,7 +104,6 @@ class Watchlist extends React.Component {
                 <TableHeaderColumn width={100}>
                   Volume (24 Hr)
                 </TableHeaderColumn>
-                <TableHeaderColumn width={100}>Date Added</TableHeaderColumn>
               </TableRow>
             </TableHeader>
             <TableBody>{this.props.watchlist.map(this.watchlistRow)}</TableBody>
@@ -132,4 +118,6 @@ const mapStateToProps = state => ({
   watchlist: state.watchlist
 });
 
-export default connect(mapStateToProps, { fetchCoins })(Watchlist);
+export default connect(mapStateToProps, { fetchCoins, fetchSavedWatchlist })(
+  Watchlist
+);
