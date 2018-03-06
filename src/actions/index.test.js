@@ -9,7 +9,7 @@ describe('fetchCoinSuccess', () => {
     expect(action.cryptoData).toEqual(coin);
   });
 
-  describe('fetchCoins', () => {
+  /* describe('fetchCoins', () => {
     it('Should dispatch fetchCoinSuccess', () => {
       const dispatch = jest.fn();
 
@@ -40,5 +40,5 @@ describe('fetchCoinSuccess', () => {
         );
       });
     });
-  });
+  }); */
 });
