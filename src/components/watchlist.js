@@ -2,11 +2,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 import RaisedButton from 'material-ui/RaisedButton';
 import Paper from 'material-ui/Paper';
-import VirtualizedSelect from 'react-virtualized-select';
+import Select from 'react-select';
 import 'react-select/dist/react-select.css';
-import 'react-virtualized/styles.css';
-import 'react-virtualized-select/styles.css';
-import { fetchCoins, fetchSavedWatchlist } from '../actions';
+import { fetchCoins, fetchSavedWatchlist } from '../actions/fetch-watchlist';
 
 import {
   Table,
@@ -69,15 +67,17 @@ class Watchlist extends React.Component {
     let options = topCoinsJson;
     return (
       <div>
-        <VirtualizedSelect
+        <Select
           options={options}
           simpleValue
           clearable
           searchable
+          maxHeight={100}
           labelKey="symbol"
           valueKey="id"
           onChange={selectValue => this.setState({ selectValue })}
           value={this.state.selectValue}
+          noResultsText="No coin found"
         />
 
         <RaisedButton
