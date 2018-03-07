@@ -4,7 +4,11 @@ import RaisedButton from 'material-ui/RaisedButton';
 import Paper from 'material-ui/Paper';
 import Select from 'react-select';
 import 'react-select/dist/react-select.css';
-import { fetchCoins, fetchSavedWatchlist } from '../actions/fetch-watchlist';
+import {
+  fetchCoins,
+  fetchSavedWatchlist,
+  selectedCurrency
+} from '../actions/fetch-watchlist';
 
 import {
   Table,
@@ -27,8 +31,6 @@ class Watchlist extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {};
-
     this.fetchCoin = this.fetchCoin.bind(this);
   }
 
@@ -37,8 +39,9 @@ class Watchlist extends React.Component {
   }
 
   fetchCoin() {
-    this.props.fetchCoins(this.state.selectValue);
-    this.setState({ selectValue: '' });
+    console.log(this.props.watchlist.selectedValue);
+    this.props.fetchCoins(this.props.watchlist.selectedValue);
+    this.props.watchlist.selectedValue = '';
   }
 
   watchlistRow(watchlist, index) {
@@ -72,11 +75,10 @@ class Watchlist extends React.Component {
           simpleValue
           clearable
           searchable
-          maxHeight={100}
           labelKey="symbol"
           valueKey="id"
-          onChange={selectValue => this.setState({ selectValue })}
-          value={this.state.selectValue}
+          onChange={selectValue => this.props.selectedCurrency(selectValue)}
+          value={this.props.watchlist.selectedValue}
           noResultsText="No coin found"
         />
 
@@ -106,7 +108,9 @@ class Watchlist extends React.Component {
                 </TableHeaderColumn>
               </TableRow>
             </TableHeader>
-            <TableBody>{this.props.watchlist.map(this.watchlistRow)}</TableBody>
+            <TableBody>
+              {this.props.watchlist.coinData.map(this.watchlistRow)}
+            </TableBody>
           </Table>
         </Paper>
       </div>
@@ -118,6 +122,8 @@ const mapStateToProps = state => ({
   watchlist: state.watchlist
 });
 
-export default connect(mapStateToProps, { fetchCoins, fetchSavedWatchlist })(
-  Watchlist
-);
+export default connect(mapStateToProps, {
+  fetchCoins,
+  fetchSavedWatchlist,
+  selectedCurrency
+})(Watchlist);
