@@ -63,7 +63,6 @@ class Portfolio extends React.Component {
       this.setState({ errorText: 'this field is required' });
       return;
     }
-    this.setState({ errorText: '' });
     this.props.addToPortfolio(
       this.state.selectValue,
       this.refs.holdings.input.value
@@ -112,23 +111,25 @@ class Portfolio extends React.Component {
       <div>
         <h3 style={centerStyle}>
           Portfolio Value: ${this.portfolioValue(
-            this.props.portfolio
+            this.props.portfolio.coinData
           ).toLocaleString()}
         </h3>
 
         <form onSubmit={this.handleSubmit} style={formStyle}>
-          <Select
-            wrapperStyle={{ ...centerDiv, ...searchStyle }}
-            options={options}
-            simpleValue
-            clearable
-            searchable
-            labelKey="symbol"
-            valueKey="id"
-            onChange={selectValue => this.setState({ selectValue })}
-            value={this.state.selectValue}
-            noResultsText="No coin found"
-          />
+          <div>
+            <Select
+              wrapperStyle={{ ...centerDiv, ...searchStyle }}
+              options={options}
+              simpleValue
+              clearable
+              searchable
+              labelKey="symbol"
+              valueKey="id"
+              onChange={selectValue => this.setState({ selectValue })}
+              value={this.state.selectValue}
+              noResultsText="No coin found"
+            />
+          </div>
           <TextField
             hintText="Enter the amount owned"
             floatingLabelText="Amount brought"
@@ -166,7 +167,9 @@ class Portfolio extends React.Component {
                 </TableHeaderColumn>
               </TableRow>
             </TableHeader>
-            <TableBody>{this.props.portfolio.map(this.portfolioRow)}</TableBody>
+            <TableBody>
+              {this.props.portfolio.coinData.map(this.portfolioRow)}
+            </TableBody>
           </Table>
         </Paper>
       </div>
