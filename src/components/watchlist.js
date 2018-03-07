@@ -27,6 +27,24 @@ const buttonStyle = {
   margin: 5
 };
 
+const searchStyle = {
+  width: 150,
+  display: 'inline-flex'
+};
+
+const centerDiv = {
+  margin: '0 auto'
+};
+
+const makeInline = {
+  display: 'inline-flex'
+};
+
+const searchDivStyle = {
+  textAlign: 'center',
+  paddingBottom: 10
+};
+
 class Watchlist extends React.Component {
   constructor(props) {
     super(props);
@@ -70,24 +88,29 @@ class Watchlist extends React.Component {
     let options = topCoinsJson;
     return (
       <div>
-        <Select
-          options={options}
-          simpleValue
-          clearable
-          searchable
-          labelKey="symbol"
-          valueKey="id"
-          onChange={selectValue => this.props.selectedCurrency(selectValue)}
-          value={this.props.watchlist.selectedValue}
-          noResultsText="No coin found"
-        />
+        <div style={searchDivStyle}>
+          <Select
+            wrapperStyle={{ ...centerDiv, ...searchStyle }}
+            options={options}
+            simpleValue
+            clearable
+            searchable
+            labelKey="symbol"
+            valueKey="id"
+            onChange={selectValue => this.props.selectedCurrency(selectValue)}
+            value={this.props.watchlist.selectedValue}
+            noResultsText="No coin found"
+          />
 
-        <RaisedButton
-          label="Add Coin"
-          style={buttonStyle}
-          labelStyle={buttonStyle}
-          onClick={this.fetchCoin}
-        />
+          <div style={makeInline}>
+            <RaisedButton
+              label="Add Coin"
+              style={buttonStyle}
+              labelStyle={buttonStyle}
+              onClick={this.fetchCoin}
+            />
+          </div>
+        </div>
 
         <Paper>
           <Table fixedHeader={false}>
