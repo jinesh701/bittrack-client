@@ -12,12 +12,17 @@ export const fetchCoinSuccess = cryptoData => ({
   cryptoData
 });
 
-export const fetchSavedWatchlist = () => dispatch => {
-  return axios
+export const SELECTED_CURRENCY = 'SELECTED_CURRENCY';
+export const selectedCurrency = selectedValue => ({
+  type: SELECTED_CURRENCY,
+  selectedValue
+});
+
+export const fetchSavedWatchlist = () => dispatch =>
+  axios
     .get('http://localhost:8080/api/watchlist')
     .then(res => res.data)
     .then(watchlist => dispatch(fetchSavedCoins(watchlist)));
-};
 
 export const fetchCoins = coinName => dispatch => {
   axios.defaults.withCredentials = true;
