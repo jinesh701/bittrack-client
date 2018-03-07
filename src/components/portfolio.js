@@ -28,17 +28,38 @@ const searchStyle = {
   width: 150
 };
 
+const centerStyle = {
+  textAlign: 'center'
+};
+
+const formStyle = {
+  paddingBottom: 10,
+  textAlign: 'center'
+};
+
 class Portfolio extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {};
+    this.state = {
+      selectValue: '',
+      errorText: '',
+      error: ''
+    };
 
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleSubmit(event) {
     event.preventDefault();
+
+    if (
+      this.state.selectValue === '' ||
+      this.refs.holdings.input.value === ''
+    ) {
+      this.setState({ errorText: 'this field is required' });
+      return;
+    }
     this.props.addToPortfolio(
       this.state.selectValue,
       this.refs.holdings.input.value
@@ -50,21 +71,25 @@ class Portfolio extends React.Component {
   portfolioRow(portfolio, index) {
     return (
       <TableRow key={index}>
-        <TableRowColumn width={100}>{portfolio.name}</TableRowColumn>
-        <TableRowColumn width={100}>{portfolio['0']}</TableRowColumn>
-        <TableRowColumn width={100}>${portfolio.price_usd}</TableRowColumn>
-        <TableRowColumn width={100}>฿{portfolio.price_btc}</TableRowColumn>
+        <TableRowColumn width={100}>{portfolio.coinData.name}</TableRowColumn>
+        <TableRowColumn width={100}>{portfolio.userHoldings}</TableRowColumn>
         <TableRowColumn width={100}>
-          {portfolio.percent_change_1h}%
+          ${portfolio.coinData.price_usd}
         </TableRowColumn>
         <TableRowColumn width={100}>
-          {portfolio.percent_change_24h}%
+          ฿{portfolio.coinData.price_btc}
         </TableRowColumn>
         <TableRowColumn width={100}>
-          {portfolio.percent_change_7d}%
+          {portfolio.coinData.percent_change_1h}%
         </TableRowColumn>
         <TableRowColumn width={100}>
-          ${portfolio['24h_volume_usd']}
+          {portfolio.coinData.percent_change_24h}%
+        </TableRowColumn>
+        <TableRowColumn width={100}>
+          {portfolio.coinData.percent_change_7d}%
+        </TableRowColumn>
+        <TableRowColumn width={100}>
+          ${portfolio.coinData['24h_volume_usd']}
         </TableRowColumn>
       </TableRow>
     );
@@ -74,33 +99,38 @@ class Portfolio extends React.Component {
     let options = topCoinsJson;
     return (
       <div>
-        <h3>Portfolio Value:</h3>
+        <h3 style={centerStyle}>Portfolio Value:</h3>
 
-        <form onSubmit={this.handleSubmit}>
-          <Select
-            wrapperStyle={searchStyle}
-            options={options}
-            simpleValue
-            clearable
-            searchable
-            maxHeight={100}
-            labelKey="symbol"
-            valueKey="id"
-            onChange={selectValue => this.setState({ selectValue })}
-            value={this.state.selectValue}
-            noResultsText="No coin found"
-          />
+        <form onSubmit={this.handleSubmit} style={formStyle}>
+          <div>
+            <Select
+              wrapperStyle={searchStyle}
+              options={options}
+              simpleValue
+              clearable
+              searchable
+              labelKey="symbol"
+              valueKey="id"
+              onChange={selectValue => this.setState({ selectValue })}
+              value={this.state.selectValue}
+              noResultsText="No coin found"
+            />
+          </div>
           <TextField
             hintText="Enter the amount owned"
             floatingLabelText="Amount brought"
+            type="number"
             ref="holdings"
+            errorText={this.state.errorText}
           />
-          <RaisedButton
-            type="submit"
-            label="Add Coin"
-            style={buttonStyle}
-            labelStyle={buttonStyle}
-          />
+          <div>
+            <RaisedButton
+              type="submit"
+              label="Add Coin"
+              style={buttonStyle}
+              labelStyle={buttonStyle}
+            />
+          </div>
         </form>
 
         <Paper>
