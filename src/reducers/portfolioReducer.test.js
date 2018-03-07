@@ -1,5 +1,8 @@
 import portfolioReducer from './portfolioReducer';
-import { addCoinSuccess } from '../actions/fetch-portfolio';
+import {
+  addCoinSuccess,
+  selectedPortfolioCurrency
+} from '../actions/fetch-portfolio';
 
 describe('Reducer', () => {
   it('Should set the initial state when nothing is passed in', () => {
@@ -26,5 +29,18 @@ describe('addCoinSuccess', () => {
 
     state = portfolioReducer(state, addCoinSuccess(newItem, userHoldings));
     expect(state.coinData).toEqual([{ coinData: newItem, userHoldings }]);
+  });
+});
+
+describe('selectedCurrency', () => {
+  it('Should return a string for a selected value', () => {
+    let state = {
+      selectedValue: ''
+    };
+
+    const testItem = 'bitcoin';
+
+    state = portfolioReducer(state, selectedPortfolioCurrency(testItem));
+    expect(state.selectedValue).toEqual(testItem);
   });
 });
