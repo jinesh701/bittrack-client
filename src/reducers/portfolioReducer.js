@@ -2,7 +2,8 @@ import * as actions from '../actions/fetch-portfolio';
 
 const initialState = {
   coinData: [],
-  selectedValue: ''
+  selectedValue: '',
+  errorText: ''
 };
 
 export default function portfolioReducer(state = initialState, action) {
@@ -19,6 +20,10 @@ export default function portfolioReducer(state = initialState, action) {
   } else if (action.type === actions.SELECTED_PORTFOLIO_CURRENCY) {
     return Object.assign({}, state, {
       selectedValue: action.selectedValue
+    });
+  } else if (action.type === actions.ADD_COIN_FAIL) {
+    return Object.assign({}, state, {
+      errorText: action.error
     });
   }
   return state;
