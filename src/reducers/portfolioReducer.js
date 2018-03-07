@@ -6,7 +6,13 @@ export default function portfolioReducer(state = initialState, action) {
   if (action.type === actions.ADD_COIN_TO_PORTFOLIO) {
     return [
       ...state,
-      Object.assign({}, action.cryptoData, action.userHoldings)
+      Object.assign(
+        {},
+        {
+          coinData: action.cryptoData,
+          userHoldings: action.userHoldings
+        }
+      )
     ];
   }
   return state;
