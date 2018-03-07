@@ -7,6 +7,12 @@ export const addCoinSuccess = (cryptoData, userHoldings) => ({
   userHoldings
 });
 
+export const ADD_COIN_FAIL = 'ADD_COIN_FAIL';
+export const addCoinFail = error => ({
+  type: ADD_COIN_FAIL,
+  error
+});
+
 export const SELECTED_PORTFOLIO_CURRENCY = 'SELECTED_PORTFOLIO_CURRENCY';
 export const selectedPortfolioCurrency = selectedValue => ({
   type: SELECTED_PORTFOLIO_CURRENCY,
