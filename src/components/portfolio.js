@@ -5,7 +5,11 @@ import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import Select from 'react-select';
 import 'react-select/dist/react-select.css';
-import { addToPortfolio } from '../actions/fetch-portfolio';
+import {
+  addToPortfolio,
+  selectedPortfolioCurrency,
+  addCoinFail
+} from '../actions/fetch-portfolio';
 
 import {
   Table,
@@ -45,11 +49,6 @@ class Portfolio extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      selectValue: '',
-      errorText: ''
-    };
-
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
@@ -57,18 +56,19 @@ class Portfolio extends React.Component {
     event.preventDefault();
 
     if (
-      this.state.selectValue === '' ||
+      this.props.portfolio.selectedValue === '' ||
       this.refs.holdings.input.value === ''
     ) {
-      this.setState({ errorText: 'this field is required' });
+      this.props.addCoinFail('this field is required');
       return;
     }
     this.props.addToPortfolio(
-      this.state.selectValue,
+      this.props.portfolio.selectedValue,
       this.refs.holdings.input.value
     );
     this.refs.holdings.input.value = '';
-    this.setState({ selectValue: '' });
+    this.props.portfolio.errorText = '';
+    this.props.portfolio.selectedValue = '';
   }
 
   portfolioRow(portfolio, index) {
@@ -125,8 +125,10 @@ class Portfolio extends React.Component {
               searchable
               labelKey="symbol"
               valueKey="id"
-              onChange={selectValue => this.setState({ selectValue })}
-              value={this.state.selectValue}
+              onChange={selectValue =>
+                this.props.selectedPortfolioCurrency(selectValue)
+              }
+              value={this.props.portfolio.selectedValue}
               noResultsText="No coin found"
             />
           </div>
@@ -135,7 +137,7 @@ class Portfolio extends React.Component {
             floatingLabelText="Amount brought"
             type="number"
             ref="holdings"
-            errorText={this.state.errorText}
+            errorText={this.props.portfolio.errorText}
           />
           <div>
             <RaisedButton
@@ -181,4 +183,8 @@ const mapStateToProps = state => ({
   portfolio: state.portfolio
 });
 
-export default connect(mapStateToProps, { addToPortfolio })(Portfolio);
+export default connect(mapStateToProps, {
+  addToPortfolio,
+  addCoinFail,
+  selectedPortfolioCurrency
+})(Portfolio);
