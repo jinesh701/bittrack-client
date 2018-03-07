@@ -32,6 +32,10 @@ const centerStyle = {
   textAlign: 'center'
 };
 
+const centerDiv = {
+  margin: '0 auto'
+};
+
 const formStyle = {
   paddingBottom: 10,
   textAlign: 'center'
@@ -43,8 +47,7 @@ class Portfolio extends React.Component {
 
     this.state = {
       selectValue: '',
-      errorText: '',
-      error: ''
+      errorText: ''
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -60,6 +63,7 @@ class Portfolio extends React.Component {
       this.setState({ errorText: 'this field is required' });
       return;
     }
+    this.setState({ errorText: '' });
     this.props.addToPortfolio(
       this.state.selectValue,
       this.refs.holdings.input.value
@@ -107,24 +111,24 @@ class Portfolio extends React.Component {
     return (
       <div>
         <h3 style={centerStyle}>
-          Portfolio Value: ${this.portfolioValue(this.props.portfolio)}
+          Portfolio Value: ${this.portfolioValue(
+            this.props.portfolio
+          ).toLocaleString()}
         </h3>
 
         <form onSubmit={this.handleSubmit} style={formStyle}>
-          <div>
-            <Select
-              wrapperStyle={searchStyle}
-              options={options}
-              simpleValue
-              clearable
-              searchable
-              labelKey="symbol"
-              valueKey="id"
-              onChange={selectValue => this.setState({ selectValue })}
-              value={this.state.selectValue}
-              noResultsText="No coin found"
-            />
-          </div>
+          <Select
+            wrapperStyle={{ ...centerDiv, ...searchStyle }}
+            options={options}
+            simpleValue
+            clearable
+            searchable
+            labelKey="symbol"
+            valueKey="id"
+            onChange={selectValue => this.setState({ selectValue })}
+            value={this.state.selectValue}
+            noResultsText="No coin found"
+          />
           <TextField
             hintText="Enter the amount owned"
             floatingLabelText="Amount brought"
