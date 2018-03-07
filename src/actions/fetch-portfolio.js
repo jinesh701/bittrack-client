@@ -7,6 +7,12 @@ export const addCoinSuccess = (cryptoData, userHoldings) => ({
   userHoldings
 });
 
+export const SELECTED_PORTFOLIO_CURRENCY = 'SELECTED_PORTFOLIO_CURRENCY';
+export const selectedPortfolioCurrency = selectedValue => ({
+  type: SELECTED_PORTFOLIO_CURRENCY,
+  selectedValue
+});
+
 export const addToPortfolio = (coinName, userHoldings) => dispatch => {
   return Promise.resolve(
     topCoinsJson.find(element => {
