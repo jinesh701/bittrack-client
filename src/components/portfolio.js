@@ -95,11 +95,20 @@ class Portfolio extends React.Component {
     );
   }
 
+  portfolioValue(portfolio) {
+    return portfolio.reduce((acum, item) => {
+      acum += item.coinData.price_usd * item.userHoldings;
+      return acum;
+    }, 0);
+  }
+
   render() {
     let options = topCoinsJson;
     return (
       <div>
-        <h3 style={centerStyle}>Portfolio Value:</h3>
+        <h3 style={centerStyle}>
+          Portfolio Value: ${this.portfolioValue(this.props.portfolio)}
+        </h3>
 
         <form onSubmit={this.handleSubmit} style={formStyle}>
           <div>
