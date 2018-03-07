@@ -36,12 +36,14 @@ describe('fetchCoinSuccess', () => {
 });
 
 describe('selectedCurrency', () => {
-  let state = {
-    selectedValue: ''
-  };
+  it('Should return a string for selectedCurrency value', () => {
+    let state = {
+      selectedValue: ''
+    };
 
-  const testItem = 'bitcoin';
+    const testItem = 'bitcoin';
 
-  state = watchlistReducer(state, selectedCurrency(testItem));
-  expect(state.selectedValue).toEqual(testItem);
+    state = watchlistReducer(state, selectedCurrency(testItem));
+    expect(state.selectedValue).toEqual(testItem);
+  });
 });
