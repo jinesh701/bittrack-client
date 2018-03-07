@@ -1,9 +1,12 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import Select from 'react-select';
 import 'react-select/dist/react-select.css';
+import { addToPortfolio } from '../actions/fetch-portfolio';
+
 import {
   Table,
   TableBody,
@@ -30,6 +33,41 @@ class Portfolio extends React.Component {
     super(props);
 
     this.state = {};
+
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleSubmit(event) {
+    event.preventDefault();
+    this.props.addToPortfolio(
+      this.state.selectValue,
+      this.refs.holdings.input.value
+    );
+    this.refs.holdings.input.value = '';
+    this.setState({ selectValue: '' });
+  }
+
+  portfolioRow(portfolio, index) {
+    return (
+      <TableRow key={index}>
+        <TableRowColumn width={100}>{portfolio.name}</TableRowColumn>
+        <TableRowColumn width={100}>{portfolio['0']}</TableRowColumn>
+        <TableRowColumn width={100}>${portfolio.price_usd}</TableRowColumn>
+        <TableRowColumn width={100}>฿{portfolio.price_btc}</TableRowColumn>
+        <TableRowColumn width={100}>
+          {portfolio.percent_change_1h}%
+        </TableRowColumn>
+        <TableRowColumn width={100}>
+          {portfolio.percent_change_24h}%
+        </TableRowColumn>
+        <TableRowColumn width={100}>
+          {portfolio.percent_change_7d}%
+        </TableRowColumn>
+        <TableRowColumn width={100}>
+          ${portfolio['24h_volume_usd']}
+        </TableRowColumn>
+      </TableRow>
+    );
   }
 
   render() {
@@ -38,7 +76,7 @@ class Portfolio extends React.Component {
       <div>
         <h3>Portfolio Value:</h3>
 
-        <form>
+        <form onSubmit={this.handleSubmit}>
           <Select
             wrapperStyle={searchStyle}
             options={options}
@@ -55,8 +93,10 @@ class Portfolio extends React.Component {
           <TextField
             hintText="Enter the amount owned"
             floatingLabelText="Amount brought"
+            ref="holdings"
           />
           <RaisedButton
+            type="submit"
             label="Add Coin"
             style={buttonStyle}
             labelStyle={buttonStyle}
@@ -83,6 +123,7 @@ class Portfolio extends React.Component {
                 </TableHeaderColumn>
               </TableRow>
             </TableHeader>
+            <TableBody>{this.props.portfolio.map(this.portfolioRow)}</TableBody>
           </Table>
         </Paper>
       </div>
@@ -90,4 +131,8 @@ class Portfolio extends React.Component {
   }
 }
 
-export default Portfolio;
+const mapStateToProps = state => ({
+  portfolio: state.portfolio
+});
+
+export default connect(mapStateToProps, { addToPortfolio })(Portfolio);
