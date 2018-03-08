@@ -60,16 +60,22 @@ class Watchlist extends React.Component {
   }
 
   fetchCoin() {
-    console.log(this.props.watchlist.selectedValue);
     this.props.fetchCoins(this.props.watchlist.selectedValue);
     this.props.watchlist.selectedValue = '';
   }
 
   watchlistRow(watchlist, index) {
+    const formatToUsd = new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 6
+    });
+
     return (
       <TableRow key={index}>
         <TableRowColumn width={100}>{watchlist.name}</TableRowColumn>
-        <TableRowColumn width={100}>${watchlist.price_usd}</TableRowColumn>
+        <TableRowColumn width={100}>{formatToUsd.format(watchlist.price_usd)}</TableRowColumn>
         <TableRowColumn width={100}>฿{watchlist.price_btc}</TableRowColumn>
         <TableRowColumn width={100}>
           {watchlist.percent_change_1h}%
@@ -81,7 +87,7 @@ class Watchlist extends React.Component {
           {watchlist.percent_change_7d}%
         </TableRowColumn>
         <TableRowColumn width={100}>
-          ${watchlist['24h_volume_usd']}
+          ${parseInt(watchlist['24h_volume_usd'], 10).toLocaleString()}
         </TableRowColumn>
       </TableRow>
     );

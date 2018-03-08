@@ -1,5 +1,5 @@
 /* eslint class-methods-use-this: ["error", { "exceptMethods":
-["portfolioValue", "portfolioRow"] }] */
+["portfolioValueUsd", "portfolioValueBtc", "portfolioRow"] }] */
 
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -77,12 +77,21 @@ class Portfolio extends React.Component {
   }
 
   portfolioRow(portfolio, index) {
+    const formatToUsd = new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 6
+    });
+
     return (
       <TableRow key={index}>
         <TableRowColumn width={100}>{portfolio.coinData.name}</TableRowColumn>
-        <TableRowColumn width={100}>{portfolio.userHoldings}</TableRowColumn>
         <TableRowColumn width={100}>
-          ${portfolio.coinData.price_usd}
+        {parseInt(portfolio.userHoldings, 10).toLocaleString()}
+        </TableRowColumn>
+        <TableRowColumn width={100}>
+          {formatToUsd.format(portfolio.coinData.price_usd)}
         </TableRowColumn>
         <TableRowColumn width={100}>
           ฿{portfolio.coinData.price_btc}
@@ -97,13 +106,13 @@ class Portfolio extends React.Component {
           {portfolio.coinData.percent_change_7d}%
         </TableRowColumn>
         <TableRowColumn width={100}>
-          ${portfolio.coinData['24h_volume_usd']}
+        ${parseInt(portfolio.coinData['24h_volume_usd'], 10).toLocaleString()}
         </TableRowColumn>
       </TableRow>
     );
   }
 
-  portfolioValue(portfolio) {
+  portfolioValueUsd(portfolio) {
     return portfolio.reduce((acum, item) => {
       let portfolioValue = acum;
       portfolioValue += item.coinData.price_usd * item.userHoldings;
@@ -111,12 +120,24 @@ class Portfolio extends React.Component {
     }, 0);
   }
 
+  portfolioValueBtc(portfolio) {
+    return portfolio.reduce((acum, item) => {
+      let portfolioValue = acum;
+      portfolioValue += item.coinData.price_btc * item.userHoldings;
+      return portfolioValue;
+    }, 0);
+  }
+
+
   render() {
     const options = topCoinsJson;
     return (
       <div>
         <h3 style={centerStyle}>
-          Portfolio Value: ${this.portfolioValue(this.props.portfolio.coinData).toLocaleString()}
+          Portfolio Value: ${this.portfolioValueUsd(this.props.portfolio.coinData).toLocaleString()}
+          <br />
+          <br />
+          ฿{this.portfolioValueBtc(this.props.portfolio.coinData)}
         </h3>
 
         <form onSubmit={this.handleSubmit} style={formStyle}>
