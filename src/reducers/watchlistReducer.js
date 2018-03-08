@@ -22,7 +22,8 @@ export default function watchlistReducer(state = initialState, action) {
     });
   } else if (action.type === actions.SELECTED_CURRENCY) {
     return Object.assign({}, state, {
-      selectedValue: action.selectedValue
+      selectedValue: action.selectedValue,
+      errorMessage: ''
     });
   }
   return state;
