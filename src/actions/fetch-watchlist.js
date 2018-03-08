@@ -12,6 +12,12 @@ export const fetchCoinSuccess = cryptoData => ({
   cryptoData
 });
 
+export const FETCH_COIN_FAIL = 'FETCH_COIN_FAIL';
+export const fetchCoinFail = errorMessage => ({
+  type: FETCH_COIN_FAIL,
+  errorMessage
+});
+
 export const SELECTED_CURRENCY = 'SELECTED_CURRENCY';
 export const selectedCurrency = selectedValue => ({
   type: SELECTED_CURRENCY,
@@ -32,7 +38,13 @@ export const fetchCoins = coinName => dispatch => {
   }).then(axios
     .post(`http://localhost:8080/api/watchlist/${coinName}`)
     .then(res => res.data)
-    .then(coin => {
-      dispatch(fetchCoinSuccess(coin));
+    .then(data => {
+      const upperCaseCoinName = coinName.charAt(0).toUpperCase() + coinName.slice(1);
+      const error = `${upperCaseCoinName} already in watchlist`;
+      if (data === error) {
+        dispatch(fetchCoinFail(data));
+      } else {
+        dispatch(fetchCoinSuccess(data));
+      }
     }));
 };
