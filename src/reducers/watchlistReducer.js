@@ -2,13 +2,19 @@ import * as actions from '../actions/fetch-watchlist';
 
 const initialState = {
   coinData: [],
-  selectedValue: ''
+  selectedValue: '',
+  errorMessage: ''
 };
 
 export default function watchlistReducer(state = initialState, action) {
   if (action.type === actions.FETCH_COIN_SUCCESS) {
     return Object.assign({}, state, {
-      coinData: [...state.coinData, action.cryptoData]
+      coinData: [...state.coinData, action.cryptoData],
+      errorMessage: ''
+    });
+  } else if (action.type === actions.FETCH_COIN_FAIL) {
+    return Object.assign({}, state, {
+      errorMessage: action.errorMessage
     });
   } else if (action.type === actions.FETCH_SAVED_COINS) {
     return Object.assign({}, state, {
@@ -19,6 +25,5 @@ export default function watchlistReducer(state = initialState, action) {
       selectedValue: action.selectedValue
     });
   }
-
   return state;
 }
