@@ -9,6 +9,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import Select from 'react-select';
 import 'react-select/dist/react-select.css';
+
 import {
   Table,
   TableBody,
@@ -17,11 +18,14 @@ import {
   TableRow,
   TableRowColumn
 } from 'material-ui/Table';
+
 import {
   addToPortfolio,
   selectedPortfolioCurrency,
   addCoinFail
 } from '../actions/fetch-portfolio';
+
+import './portfolio.css';
 
 const topCoinsJson = require('../topCoinsJson.json');
 
@@ -32,20 +36,8 @@ const buttonStyle = {
 };
 
 const searchStyle = {
-  width: 150
-};
-
-const centerStyle = {
-  textAlign: 'center'
-};
-
-const centerDiv = {
+  width: 150,
   margin: '0 auto'
-};
-
-const formStyle = {
-  paddingBottom: 10,
-  textAlign: 'center'
 };
 
 class Portfolio extends React.Component {
@@ -133,17 +125,16 @@ class Portfolio extends React.Component {
     const options = topCoinsJson;
     return (
       <div>
-        <h3 style={centerStyle}>
+        <h3 className="center">
           Portfolio Value: ${this.portfolioValueUsd(this.props.portfolio.coinData).toLocaleString()}
           <br />
           <br />
           ฿{this.portfolioValueBtc(this.props.portfolio.coinData)}
         </h3>
 
-        <form onSubmit={this.handleSubmit} style={formStyle}>
-          <div>
+        <form onSubmit={this.handleSubmit} className="form">
             <Select
-              wrapperStyle={{ ...centerDiv, ...searchStyle }}
+              wrapperStyle={{ ...searchStyle }}
               options={options}
               simpleValue
               clearable
@@ -154,9 +145,11 @@ class Portfolio extends React.Component {
                 this.props.selectedPortfolioCurrency(selectValue)
               }
               value={this.props.portfolio.selectedValue}
+              placeholder="Select a coin"
               noResultsText="No coin found"
             />
-          </div>
+
+          <div className="center">
           <TextField
             hintText="Enter the amount owned"
             floatingLabelText="Amount brought"
@@ -166,7 +159,6 @@ class Portfolio extends React.Component {
             }}
             errorText={this.props.portfolio.errorText}
           />
-          <div>
             <RaisedButton
               type="submit"
               label="Add Coin"
