@@ -6,3 +6,11 @@
 .button {
     display: inline-flex;
 }
+
+.error-message {
+    color: red;
+    text-align: center;
+    font-size: 12px;
+    padding-top: 10px;
+    margin-right: 30px
+}
