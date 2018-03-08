@@ -1,7 +1,8 @@
 import portfolioReducer from './portfolioReducer';
 import {
   addCoinSuccess,
-  selectedPortfolioCurrency
+  selectedPortfolioCurrency,
+  addCoinFail
 } from '../actions/fetch-portfolio';
 
 describe('Reducer', () => {
@@ -44,3 +45,17 @@ describe('selectedCurrency', () => {
     expect(state.selectedValue).toEqual(testItem);
   });
 });
+
+describe('addCoinFail', () => {
+  it('Should return an error text', () => {
+    let state = {
+      errorText: ''
+    };
+
+    const errorText = 'this field is required';
+
+    state = portfolioReducer(state, addCoinFail(errorText));
+    expect(state.errorText).toEqual(errorText);
+  });
+});
+

@@ -1,7 +1,29 @@
 import {
   FETCH_COIN_SUCCESS,
+  FETCH_SAVED_COINS,
+  SELECTED_CURRENCY,
   fetchCoinSuccess,
+  fetchSavedCoins,
+  selectedCurrency
 } from './fetch-watchlist';
+
+describe('fetchSavedCoins', () => {
+  it('Should return the action', () => {
+    const coins = [{ id: 'bitcoin' }, { id: 'litecoin' }];
+    const action = fetchSavedCoins(coins);
+    expect(action.type).toEqual(FETCH_SAVED_COINS);
+    expect(action.savedCoins).toEqual(coins);
+  });
+});
+
+describe('selectedCurrency', () => {
+  it('Should return the action', () => {
+    const coin = 'bitcoin';
+    const action = selectedCurrency(coin);
+    expect(action.type).toEqual(SELECTED_CURRENCY);
+    expect(action.selectedValue).toEqual(coin);
+  });
+});
 
 describe('fetchCoinSuccess', () => {
   it('Should return the action', () => {

@@ -1,8 +1,21 @@
 import {
   ADD_COIN_TO_PORTFOLIO,
+  SELECTED_PORTFOLIO_CURRENCY,
+  ADD_COIN_FAIL,
   addCoinSuccess,
   addToPortfolio,
+  selectedPortfolioCurrency,
+  addCoinFail
 } from './fetch-portfolio';
+
+describe('selectedPortfolioCurrency', () => {
+  it('Should return the action', () => {
+    const coin = 'bitcoin';
+    const action = selectedPortfolioCurrency(coin);
+    expect(action.type).toEqual(SELECTED_PORTFOLIO_CURRENCY);
+    expect(action.selectedValue).toEqual(coin);
+  });
+});
 
 describe('addCoinSuccess', () => {
   it('Should return the action', () => {
@@ -14,6 +27,7 @@ describe('addCoinSuccess', () => {
     expect(action.userHoldings).toEqual(userHoldings);
   });
 });
+
 
 describe('addToPortfolio', () => {
   it('Should dispatch addCoinSuccess', () => {
@@ -27,5 +41,14 @@ describe('addToPortfolio', () => {
         .reduce((accumulator, currentValue) =>
           accumulator.concat(currentValue)));
     });
+  });
+});
+
+describe('addCoinFail', () => {
+  it('Should return the action', () => {
+    const error = 'this field is required';
+    const action = addCoinFail(error);
+    expect(action.type).toEqual(ADD_COIN_FAIL);
+    expect(action.error).toEqual(error);
   });
 });

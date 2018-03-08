@@ -1,5 +1,5 @@
 import watchlistReducer from './watchlistReducer';
-import { fetchCoinSuccess, selectedCurrency } from '../actions/fetch-watchlist';
+import { fetchCoinSuccess, selectedCurrency, fetchSavedCoins } from '../actions/fetch-watchlist';
 
 describe('Reducer', () => {
   it('Should set the initial state when nothing is passed in', () => {
@@ -12,6 +12,18 @@ describe('Reducer', () => {
     const currentState = {};
     const state = watchlistReducer(currentState, { type: '___UNKNOWN' });
     expect(state).toBe(currentState);
+  });
+});
+
+describe('fetchSavedCoins', () => {
+  it('Should fetch a list of saved coins', () => {
+    let state = {
+      coinData: []
+    };
+
+    const coinList = [{ id: 'bitcoin' }, { id: 'litecoin' }];
+    state = watchlistReducer(state, fetchSavedCoins(coinList));
+    expect(state.coinData).toEqual(coinList);
   });
 });
 
