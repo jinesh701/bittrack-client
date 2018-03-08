@@ -149,7 +149,6 @@ class Portfolio extends React.Component {
               noResultsText="No coin found"
             />
 
-          <div className="center">
           <TextField
             hintText="Enter the amount owned"
             floatingLabelText="Amount brought"
@@ -159,6 +158,8 @@ class Portfolio extends React.Component {
             }}
             errorText={this.props.portfolio.errorText}
           />
+
+          <div>
             <RaisedButton
               type="submit"
               label="Add Coin"
