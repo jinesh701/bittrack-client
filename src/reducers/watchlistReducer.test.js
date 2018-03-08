@@ -1,9 +1,5 @@
 import watchlistReducer from './watchlistReducer';
-import {
-  fetchCoinSuccess,
-  fetchSavedCoins,
-  selectedCurrency
-} from '../actions/fetch-watchlist';
+import { fetchCoinSuccess, selectedCurrency } from '../actions/fetch-watchlist';
 
 describe('Reducer', () => {
   it('Should set the initial state when nothing is passed in', () => {
@@ -13,7 +9,7 @@ describe('Reducer', () => {
   });
 
   it('Should return the current state on unknown action', () => {
-    let currentState = {};
+    const currentState = {};
     const state = watchlistReducer(currentState, { type: '___UNKNOWN' });
     expect(state).toBe(currentState);
   });

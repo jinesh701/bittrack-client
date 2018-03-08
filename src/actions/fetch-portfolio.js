@@ -19,12 +19,7 @@ export const selectedPortfolioCurrency = selectedValue => ({
   selectedValue
 });
 
-export const addToPortfolio = (coinName, userHoldings) => dispatch => {
-  return Promise.resolve(
-    topCoinsJson.find(element => {
-      return element.id === coinName;
-    })
-  ).then(coin => {
+export const addToPortfolio = (coinName, userHoldings) => dispatch =>
+  Promise.resolve(topCoinsJson.find(element => element.id === coinName)).then(coin => {
     dispatch(addCoinSuccess(coin, userHoldings));
   });
-};

@@ -1,16 +1,14 @@
+/* eslint class-methods-use-this: ["error", { "exceptMethods":
+["portfolioValue", "portfolioRow"] }] */
+
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import Select from 'react-select';
 import 'react-select/dist/react-select.css';
-import {
-  addToPortfolio,
-  selectedPortfolioCurrency,
-  addCoinFail
-} from '../actions/fetch-portfolio';
-
 import {
   Table,
   TableBody,
@@ -19,6 +17,11 @@ import {
   TableRow,
   TableRowColumn
 } from 'material-ui/Table';
+import {
+  addToPortfolio,
+  selectedPortfolioCurrency,
+  addCoinFail
+} from '../actions/fetch-portfolio';
 
 const topCoinsJson = require('../topCoinsJson.json');
 
@@ -49,6 +52,8 @@ class Portfolio extends React.Component {
   constructor(props) {
     super(props);
 
+    this.inputRef = null;
+
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
@@ -57,16 +62,16 @@ class Portfolio extends React.Component {
 
     if (
       this.props.portfolio.selectedValue === '' ||
-      this.refs.holdings.input.value === ''
+      this.inputRef.input.value === ''
     ) {
       this.props.addCoinFail('this field is required');
       return;
     }
     this.props.addToPortfolio(
       this.props.portfolio.selectedValue,
-      this.refs.holdings.input.value
+      this.inputRef.input.value
     );
-    this.refs.holdings.input.value = '';
+    this.inputRef.input.value = '';
     this.props.portfolio.errorText = '';
     this.props.portfolio.selectedValue = '';
   }
@@ -100,19 +105,18 @@ class Portfolio extends React.Component {
 
   portfolioValue(portfolio) {
     return portfolio.reduce((acum, item) => {
-      acum += item.coinData.price_usd * item.userHoldings;
-      return acum;
+      let portfolioValue = acum;
+      portfolioValue += item.coinData.price_usd * item.userHoldings;
+      return portfolioValue;
     }, 0);
   }
 
   render() {
-    let options = topCoinsJson;
+    const options = topCoinsJson;
     return (
       <div>
         <h3 style={centerStyle}>
-          Portfolio Value: ${this.portfolioValue(
-            this.props.portfolio.coinData
-          ).toLocaleString()}
+          Portfolio Value: ${this.portfolioValue(this.props.portfolio.coinData).toLocaleString()}
         </h3>
 
         <form onSubmit={this.handleSubmit} style={formStyle}>
@@ -136,7 +140,9 @@ class Portfolio extends React.Component {
             hintText="Enter the amount owned"
             floatingLabelText="Amount brought"
             type="number"
-            ref="holdings"
+            ref={holdings => {
+              this.inputRef = holdings;
+            }}
             errorText={this.props.portfolio.errorText}
           />
           <div>
@@ -178,6 +184,17 @@ class Portfolio extends React.Component {
     );
   }
 }
+
+Portfolio.propTypes = {
+  portfolio: PropTypes.shape({
+    coinData: PropTypes.array,
+    errorText: PropTypes.string,
+    selectedValue: PropTypes.string
+  }),
+  addCoinFail: PropTypes.func,
+  addToPortfolio: PropTypes.func,
+  selectedPortfolioCurrency: PropTypes.func
+};
 
 const mapStateToProps = state => ({
   portfolio: state.portfolio

@@ -1,9 +1,8 @@
 import {
   ADD_COIN_TO_PORTFOLIO,
   addCoinSuccess,
-  addToPortfolio
+  addToPortfolio,
 } from './fetch-portfolio';
-const topCoinsJson = require('../topCoinsJson.json');
 
 describe('addCoinSuccess', () => {
   it('Should return the action', () => {
@@ -24,11 +23,9 @@ describe('addToPortfolio', () => {
     const holdings = '1';
 
     return addToPortfolio(coin, holdings)(dispatch).then(() => {
-      expect(dispatch).toHaveBeenCalledWith(
-        dispatch.mock.calls[0].reduce((accumulator, currentValue) =>
-          accumulator.concat(currentValue)
-        )
-      );
+      expect(dispatch).toHaveBeenCalledWith(dispatch.mock.calls[0]
+        .reduce((accumulator, currentValue) =>
+          accumulator.concat(currentValue)));
     });
   });
 });

@@ -28,13 +28,11 @@ export const fetchCoins = coinName => dispatch => {
   axios.defaults.withCredentials = true;
   axios('http://localhost:8080/login', {
     method: 'post',
-    withCredentials: 'true'
-  }).then(
-    axios
-      .post(`http://localhost:8080/api/watchlist/${coinName}`)
-      .then(res => res.data)
-      .then(coin => {
-        dispatch(fetchCoinSuccess(coin));
-      })
-  );
+    withCredentials: 'true',
+  }).then(axios
+    .post(`http://localhost:8080/api/watchlist/${coinName}`)
+    .then(res => res.data)
+    .then(coin => {
+      dispatch(fetchCoinSuccess(coin));
+    }));
 };

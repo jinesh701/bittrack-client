@@ -10,9 +10,9 @@ describe('<Portfolio />', () => {
   });
 
   it('Has an array of portfolios as props', () => {
-    let portfolio = [];
+    const portfolio = [];
 
-    let wrapper = shallow(<Portfolio store={store} portfolio={portfolio} />);
+    const wrapper = shallow(<Portfolio store={store} portfolio={portfolio} />);
     expect(wrapper.contains(portfolio)).toEqual(true);
   });
 });

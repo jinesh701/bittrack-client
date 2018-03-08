@@ -1,15 +1,12 @@
+/* eslint class-methods-use-this: ["error", { "exceptMethods":["watchlistRow"] }] */
+
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import RaisedButton from 'material-ui/RaisedButton';
 import Paper from 'material-ui/Paper';
 import Select from 'react-select';
 import 'react-select/dist/react-select.css';
-import {
-  fetchCoins,
-  fetchSavedWatchlist,
-  selectedCurrency
-} from '../actions/fetch-watchlist';
-
 import {
   Table,
   TableBody,
@@ -18,6 +15,12 @@ import {
   TableRow,
   TableRowColumn
 } from 'material-ui/Table';
+
+import {
+  fetchCoins,
+  fetchSavedWatchlist,
+  selectedCurrency
+} from '../actions/fetch-watchlist';
 
 const topCoinsJson = require('../topCoinsJson.json');
 
@@ -85,7 +88,7 @@ class Watchlist extends React.Component {
   }
 
   render() {
-    let options = topCoinsJson;
+    const options = topCoinsJson;
     return (
       <div>
         <div style={searchDivStyle}>
@@ -140,6 +143,16 @@ class Watchlist extends React.Component {
     );
   }
 }
+
+Watchlist.propTypes = {
+  watchlist: PropTypes.shape({
+    coinData: PropTypes.array,
+    selectedValue: PropTypes.string
+  }),
+  fetchCoins: PropTypes.func,
+  fetchSavedWatchlist: PropTypes.func,
+  selectedCurrency: PropTypes.func
+};
 
 const mapStateToProps = state => ({
   watchlist: state.watchlist

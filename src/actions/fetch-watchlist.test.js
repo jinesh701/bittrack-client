@@ -1,9 +1,7 @@
 import {
   FETCH_COIN_SUCCESS,
   fetchCoinSuccess,
-  fetchCoins
 } from './fetch-watchlist';
-const topCoinsJson = require('../topCoinsJson.json');
 
 describe('fetchCoinSuccess', () => {
   it('Should return the action', () => {
@@ -12,8 +10,9 @@ describe('fetchCoinSuccess', () => {
     expect(action.type).toEqual(FETCH_COIN_SUCCESS);
     expect(action.cryptoData).toEqual(coin);
   });
+});
 
-  /* describe('fetchCoins', () => {
+/* describe('fetchCoins', () => {
     it('Should dispatch fetchCoinSuccess', () => {
       const dispatch = jest.fn();
 
@@ -45,4 +44,3 @@ describe('fetchCoinSuccess', () => {
       });
     });
   }); */
-});
