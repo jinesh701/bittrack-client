@@ -111,6 +111,7 @@ class Watchlist extends React.Component {
               onClick={this.fetchCoin}
             />
           </div>
+          <div className="error-message"><b>{this.props.watchlist.errorMessage}</b></div>
         </div>
 
         <Paper>
@@ -145,7 +146,8 @@ class Watchlist extends React.Component {
 Watchlist.propTypes = {
   watchlist: PropTypes.shape({
     coinData: PropTypes.array,
-    selectedValue: PropTypes.string
+    selectedValue: PropTypes.string,
+    errorMessage: PropTypes.string
   }),
   fetchCoins: PropTypes.func,
   fetchSavedWatchlist: PropTypes.func,
