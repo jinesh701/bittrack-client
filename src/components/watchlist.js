@@ -7,6 +7,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import Paper from 'material-ui/Paper';
 import Select from 'react-select';
 import 'react-select/dist/react-select.css';
+
 import {
   Table,
   TableBody,
@@ -22,6 +23,8 @@ import {
   selectedCurrency
 } from '../actions/fetch-watchlist';
 
+import './watchlist.css';
+
 const topCoinsJson = require('../topCoinsJson.json');
 
 const buttonStyle = {
@@ -32,20 +35,8 @@ const buttonStyle = {
 
 const searchStyle = {
   width: 150,
-  display: 'inline-flex'
-};
-
-const centerDiv = {
+  display: 'inline-flex',
   margin: '0 auto'
-};
-
-const makeInline = {
-  display: 'inline-flex'
-};
-
-const searchDivStyle = {
-  textAlign: 'center',
-  paddingBottom: 10
 };
 
 class Watchlist extends React.Component {
@@ -97,9 +88,9 @@ class Watchlist extends React.Component {
     const options = topCoinsJson;
     return (
       <div>
-        <div style={searchDivStyle}>
+        <div className="search-div">
           <Select
-            wrapperStyle={{ ...centerDiv, ...searchStyle }}
+            wrapperStyle={{ ...searchStyle }}
             options={options}
             simpleValue
             clearable
@@ -108,10 +99,11 @@ class Watchlist extends React.Component {
             valueKey="id"
             onChange={selectValue => this.props.selectedCurrency(selectValue)}
             value={this.props.watchlist.selectedValue}
+            placeholder="Select a coin"
             noResultsText="No coin found"
           />
 
-          <div style={makeInline}>
+          <div className="button">
             <RaisedButton
               label="Add Coin"
               style={buttonStyle}
