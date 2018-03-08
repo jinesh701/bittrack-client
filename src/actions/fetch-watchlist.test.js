@@ -2,9 +2,11 @@ import {
   FETCH_COIN_SUCCESS,
   FETCH_SAVED_COINS,
   SELECTED_CURRENCY,
+  FETCH_COIN_FAIL,
   fetchCoinSuccess,
   fetchSavedCoins,
-  selectedCurrency
+  selectedCurrency,
+  fetchCoinFail
 } from './fetch-watchlist';
 
 describe('fetchSavedCoins', () => {
@@ -31,6 +33,15 @@ describe('fetchCoinSuccess', () => {
     const action = fetchCoinSuccess(coin);
     expect(action.type).toEqual(FETCH_COIN_SUCCESS);
     expect(action.cryptoData).toEqual(coin);
+  });
+});
+
+describe('fetchCoinFail', () => {
+  it('Should return the action', () => {
+    const error = 'Bitcoin is already in watchlist';
+    const action = fetchCoinFail(error);
+    expect(action.type).toEqual(FETCH_COIN_FAIL);
+    expect(action.errorMessage).toEqual(error);
   });
 });
 
