@@ -20,10 +20,14 @@ export default function watchlistReducer(state = initialState, action) {
     return Object.assign({}, state, {
       coinData: action.savedCoins
     });
-  } else if (action.type === actions.SELECTED_CURRENCY) {
+  } else if (action.type === actions.SELECTED_WATCHLIST_CURRENCY) {
     return Object.assign({}, state, {
       selectedValue: action.selectedValue,
       errorMessage: ''
+    });
+  } else if (action.type === actions.REMOVE_SAVED_COIN) {
+    return Object.assign({}, state, {
+      coinData: [...state.coinData.filter((coin, i) => i !== action.index)]
     });
   }
   return state;
