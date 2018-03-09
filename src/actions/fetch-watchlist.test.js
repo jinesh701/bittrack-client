@@ -1,12 +1,14 @@
 import {
   FETCH_COIN_SUCCESS,
   FETCH_SAVED_COINS,
-  SELECTED_CURRENCY,
+  SELECTED_WATCHLIST_CURRENCY,
   FETCH_COIN_FAIL,
+  REMOVE_SAVED_COIN,
   fetchCoinSuccess,
   fetchSavedCoins,
   selectedCurrency,
-  fetchCoinFail
+  fetchCoinFail,
+  removeSavedCoin
 } from './fetch-watchlist';
 
 describe('fetchSavedCoins', () => {
@@ -22,7 +24,7 @@ describe('selectedCurrency', () => {
   it('Should return the action', () => {
     const coin = 'bitcoin';
     const action = selectedCurrency(coin);
-    expect(action.type).toEqual(SELECTED_CURRENCY);
+    expect(action.type).toEqual(SELECTED_WATCHLIST_CURRENCY);
     expect(action.selectedValue).toEqual(coin);
   });
 });
@@ -42,6 +44,15 @@ describe('fetchCoinFail', () => {
     const action = fetchCoinFail(error);
     expect(action.type).toEqual(FETCH_COIN_FAIL);
     expect(action.errorMessage).toEqual(error);
+  });
+});
+
+describe('removeSavedCoin', () => {
+  it('Finds the index to remove', () => {
+    const index = '1';
+    const action = removeSavedCoin(index);
+    expect(action.type).toEqual(REMOVE_SAVED_COIN);
+    expect(action.index).toEqual(index);
   });
 });
 
