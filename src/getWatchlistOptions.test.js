@@ -1,7 +1,7 @@
 import getWatchlistOptions from './getWatchlistOptions';
 
-describe('', () => {
-  it('filters corerctly', () => {
+describe('getWatchlistOptions function', () => {
+  it('filters correctly', () => {
     const watchlist = {
       coinData: [{
         symbol: 'BTC'
