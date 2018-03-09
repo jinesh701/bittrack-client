@@ -1,5 +1,11 @@
 import topCoinsJson from '../topCoinsJson.json';
 
+export const REMOVE_SAVED_PORTFOLIO_COIN = 'REMOVE_SAVED_PORTFOLIO_COIN';
+export const removeSavedPortfolioCoin = index => ({
+  type: REMOVE_SAVED_PORTFOLIO_COIN,
+  index
+});
+
 export const ADD_COIN_TO_PORTFOLIO = 'ADD_COIN_TO_PORTFOLIO';
 export const addCoinSuccess = (cryptoData, userHoldings) => ({
   type: ADD_COIN_TO_PORTFOLIO,

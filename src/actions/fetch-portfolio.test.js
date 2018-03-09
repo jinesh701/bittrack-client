@@ -2,10 +2,12 @@ import {
   ADD_COIN_TO_PORTFOLIO,
   SELECTED_PORTFOLIO_CURRENCY,
   ADD_COIN_FAIL,
+  REMOVE_SAVED_PORTFOLIO_COIN,
   addCoinSuccess,
   addToPortfolio,
   selectedPortfolioCurrency,
-  addCoinFail
+  addCoinFail,
+  removeSavedPortfolioCoin
 } from './fetch-portfolio';
 
 describe('selectedPortfolioCurrency', () => {
@@ -50,5 +52,13 @@ describe('addCoinFail', () => {
     const action = addCoinFail(error);
     expect(action.type).toEqual(ADD_COIN_FAIL);
     expect(action.error).toEqual(error);
+  });
+});
+
+describe('removeSavedPortfolioCoin', () => {
+  it('Finds the index to remove', () => {
+    const action = removeSavedPortfolioCoin(1);
+    expect(action.type).toEqual(REMOVE_SAVED_PORTFOLIO_COIN);
+    expect(action.index).toEqual(1);
   });
 });
