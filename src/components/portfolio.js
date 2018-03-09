@@ -41,7 +41,7 @@ const searchStyle = {
   margin: '0 auto'
 };
 
-class Portfolio extends React.Component {
+export class Portfolio extends React.Component {
   constructor(props) {
     super(props);
 
@@ -213,6 +213,12 @@ Portfolio.propTypes = {
   addCoinFail: PropTypes.func,
   addToPortfolio: PropTypes.func,
   selectedPortfolioCurrency: PropTypes.func
+};
+
+Portfolio.defaultProps = {
+  portfolio: {
+    coinData: []
+  }
 };
 
 const mapStateToProps = state => ({
