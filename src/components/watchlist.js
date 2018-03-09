@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import RaisedButton from 'material-ui/RaisedButton';
 import Paper from 'material-ui/Paper';
+import TrashIcon from 'material-ui/svg-icons/action/delete';
 import Select from 'react-select';
 import 'react-select/dist/react-select.css';
 
@@ -20,7 +21,8 @@ import {
 import {
   fetchCoins,
   fetchSavedWatchlist,
-  selectedCurrency
+  selectedCurrency,
+  deleteWatchlistCoinFromDb
 } from '../actions/fetch-watchlist';
 
 import './watchlist.css';
@@ -44,6 +46,10 @@ class Watchlist extends React.Component {
     super(props);
 
     this.fetchCoin = this.fetchCoin.bind(this);
+
+    this.watchlistRow = this.watchlistRow.bind(this);
+
+    this.handleRemove = this.handleRemove.bind(this);
   }
 
   componentDidMount() {
@@ -55,6 +61,10 @@ class Watchlist extends React.Component {
     this.props.watchlist.selectedValue = '';
   }
 
+  handleRemove(id, index) {
+    this.props.deleteWatchlistCoinFromDb(id, index);
+  }
+
   watchlistRow(watchlist, index) {
     const formatToUsd = new Intl.NumberFormat('en-US', {
       style: 'currency',
@@ -62,11 +72,12 @@ class Watchlist extends React.Component {
       minimumFractionDigits: 2,
       maximumFractionDigits: 6
     });
-
     return (
       <TableRow key={index}>
         <TableRowColumn width={100}>{watchlist.name}</TableRowColumn>
-        <TableRowColumn width={100}>{formatToUsd.format(watchlist.price_usd)}</TableRowColumn>
+        <TableRowColumn width={100}>
+          {formatToUsd.format(watchlist.price_usd)}
+        </TableRowColumn>
         <TableRowColumn width={100}>฿{watchlist.price_btc}</TableRowColumn>
         <TableRowColumn width={100}>
           {watchlist.percent_change_1h}%
@@ -79,6 +90,9 @@ class Watchlist extends React.Component {
         </TableRowColumn>
         <TableRowColumn width={100}>
           ${parseInt(watchlist['24h_volume_usd'], 10).toLocaleString()}
+        </TableRowColumn>
+        <TableRowColumn>
+          <TrashIcon onClick={() => this.handleRemove(watchlist.id, index)} />
         </TableRowColumn>
       </TableRow>
     );
@@ -111,12 +125,14 @@ class Watchlist extends React.Component {
               onClick={this.fetchCoin}
             />
           </div>
-          <div className="error-message"><b>{this.props.watchlist.errorMessage}</b></div>
+          <div className="error-message">
+            <b>{this.props.watchlist.errorMessage}</b>
+          </div>
         </div>
 
         <Paper>
-          <Table fixedHeader={false}>
-            <TableHeader>
+          <Table fixedHeader={false} selectable={false}>
+            <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
               <TableRow>
                 <TableHeaderColumn width={100}>Name</TableHeaderColumn>
                 <TableHeaderColumn width={100}>Price (USD)</TableHeaderColumn>
@@ -131,9 +147,10 @@ class Watchlist extends React.Component {
                 <TableHeaderColumn width={100}>
                   Volume (24 Hr)
                 </TableHeaderColumn>
+                <TableHeaderColumn width={20} />
               </TableRow>
             </TableHeader>
-            <TableBody>
+            <TableBody displayRowCheckbox={false} showRowHover={true}>
               {this.props.watchlist.coinData.map(this.watchlistRow)}
             </TableBody>
           </Table>
@@ -151,7 +168,8 @@ Watchlist.propTypes = {
   }),
   fetchCoins: PropTypes.func,
   fetchSavedWatchlist: PropTypes.func,
-  selectedCurrency: PropTypes.func
+  selectedCurrency: PropTypes.func,
+  deleteWatchlistCoinFromDb: PropTypes.func
 };
 
 const mapStateToProps = state => ({
@@ -161,5 +179,6 @@ const mapStateToProps = state => ({
 export default connect(mapStateToProps, {
   fetchCoins,
   fetchSavedWatchlist,
-  selectedCurrency
+  selectedCurrency,
+  deleteWatchlistCoinFromDb
 })(Watchlist);
