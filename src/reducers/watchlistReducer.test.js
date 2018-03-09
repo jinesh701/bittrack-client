@@ -1,5 +1,10 @@
 import watchlistReducer from './watchlistReducer';
-import { fetchCoinSuccess, selectedCurrency, fetchSavedCoins, fetchCoinFail } from '../actions/fetch-watchlist';
+import {
+  fetchCoinSuccess,
+  selectedCurrency,
+  fetchSavedCoins,
+  removeSavedCoin
+} from '../actions/fetch-watchlist';
 
 describe('Reducer', () => {
   it('Should set the initial state when nothing is passed in', () => {
@@ -33,8 +38,8 @@ describe('fetchCoinSuccess', () => {
       coinData: []
     };
 
-    const newItem = { test: '123' };
-    const newItem2 = { test: '456' };
+    const newItem = { id: 'bitcoin' };
+    const newItem2 = { id: 'litecoin' };
 
     // called twice to see if items add to array
     state = watchlistReducer(state, fetchCoinSuccess(newItem));
@@ -56,15 +61,13 @@ describe('selectedCurrency', () => {
   });
 });
 
-describe('fetchCoinFail', () => {
-  it('Should provide an error message if item exists', () => {
+describe('removeSavedCoin', () => {
+  it('Should remove a coin', () => {
     let state = {
-      errorMessage: ''
+      coinData: [{ id: 'bitcoin' }, { id: 'litecoin' }]
     };
 
-    const error = 'Bitcoin already in watchlist';
-
-    state = watchlistReducer(state, fetchCoinFail(error));
-    expect(state.errorMessage).toEqual(error);
+    state = watchlistReducer(state, removeSavedCoin(1));
+    expect(state.coinData).toEqual([{ id: 'bitcoin' }]);
   });
 });
