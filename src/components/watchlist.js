@@ -27,7 +27,7 @@ import {
 
 import './watchlist.css';
 
-const topCoinsJson = require('../topCoinsJson.json');
+import getWatchlistOptions from '../getWatchlistOptions';
 
 const buttonStyle = {
   fontSize: 10,
@@ -41,7 +41,7 @@ const searchStyle = {
   margin: '0 auto'
 };
 
-class Watchlist extends React.Component {
+export class Watchlist extends React.Component {
   constructor(props) {
     super(props);
 
@@ -53,7 +53,9 @@ class Watchlist extends React.Component {
   }
 
   componentDidMount() {
-    this.props.fetchSavedWatchlist();
+    if (this.props.fetchSavedWatchlist) {
+      this.props.fetchSavedWatchlist();
+    }
   }
 
   fetchCoin() {
@@ -99,7 +101,7 @@ class Watchlist extends React.Component {
   }
 
   render() {
-    const options = topCoinsJson;
+    const options = getWatchlistOptions(this.props.watchlist);
     return (
       <div>
         <div className="search-div">
@@ -124,9 +126,6 @@ class Watchlist extends React.Component {
               labelStyle={buttonStyle}
               onClick={this.fetchCoin}
             />
-          </div>
-          <div className="error-message">
-            <b>{this.props.watchlist.errorMessage}</b>
           </div>
         </div>
 
@@ -163,13 +162,18 @@ class Watchlist extends React.Component {
 Watchlist.propTypes = {
   watchlist: PropTypes.shape({
     coinData: PropTypes.array,
-    selectedValue: PropTypes.string,
-    errorMessage: PropTypes.string
+    selectedValue: PropTypes.string
   }),
   fetchCoins: PropTypes.func,
   fetchSavedWatchlist: PropTypes.func,
   selectedCurrency: PropTypes.func,
   deleteWatchlistCoinFromDb: PropTypes.func
+};
+
+Watchlist.defaultProps = {
+  watchlist: {
+    coinData: []
+  }
 };
 
 const mapStateToProps = state => ({
