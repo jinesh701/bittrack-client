@@ -2,7 +2,8 @@ import portfolioReducer from './portfolioReducer';
 import {
   addCoinSuccess,
   selectedPortfolioCurrency,
-  addCoinFail
+  addCoinFail,
+  removeSavedPortfolioCoin
 } from '../actions/fetch-portfolio';
 
 describe('Reducer', () => {
@@ -56,6 +57,18 @@ describe('addCoinFail', () => {
 
     state = portfolioReducer(state, addCoinFail(errorText));
     expect(state.errorText).toEqual(errorText);
+  });
+});
+
+
+describe('removeSavedPortfolioCoin', () => {
+  it('Should remove a coin', () => {
+    let state = {
+      coinData: [{ id: 'bitcoin' }, { id: 'litecoin' }]
+    };
+
+    state = portfolioReducer(state, removeSavedPortfolioCoin(1));
+    expect(state.coinData).toEqual([{ id: 'bitcoin' }]);
   });
 });
 

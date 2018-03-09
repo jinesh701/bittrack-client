@@ -25,6 +25,10 @@ export default function portfolioReducer(state = initialState, action) {
     return Object.assign({}, state, {
       errorText: action.error
     });
+  } else if (action.type === actions.REMOVE_SAVED_PORTFOLIO_COIN) {
+    return Object.assign({}, state, {
+      coinData: [...state.coinData.filter((coin, i) => i !== action.index)]
+    });
   }
   return state;
 }
