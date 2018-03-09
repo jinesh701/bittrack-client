@@ -23,12 +23,13 @@ import {
 import {
   addToPortfolio,
   selectedPortfolioCurrency,
-  addCoinFail
+  addCoinFail,
+  removeSavedPortfolioCoin
 } from '../actions/fetch-portfolio';
 
 import './portfolio.css';
 
-const topCoinsJson = require('../topCoinsJson.json');
+import getPortfolioOptions from '../getPortfolioOptions';
 
 const buttonStyle = {
   fontSize: 10,
@@ -48,6 +49,10 @@ export class Portfolio extends React.Component {
     this.inputRef = null;
 
     this.handleSubmit = this.handleSubmit.bind(this);
+
+    this.portfolioRow = this.portfolioRow.bind(this);
+
+    this.handleRemove = this.handleRemove.bind(this);
   }
 
   handleSubmit(event) {
@@ -69,6 +74,11 @@ export class Portfolio extends React.Component {
     this.props.portfolio.selectedValue = '';
   }
 
+
+  handleRemove(index) {
+    this.props.removeSavedPortfolioCoin(index);
+  }
+
   portfolioRow(portfolio, index) {
     const formatToUsd = new Intl.NumberFormat('en-US', {
       style: 'currency',
@@ -76,12 +86,11 @@ export class Portfolio extends React.Component {
       minimumFractionDigits: 2,
       maximumFractionDigits: 6
     });
-
     return (
       <TableRow key={index}>
         <TableRowColumn width={100}>{portfolio.coinData.name}</TableRowColumn>
         <TableRowColumn width={100}>
-        {parseInt(portfolio.userHoldings, 10).toLocaleString()}
+          {parseInt(portfolio.userHoldings, 10).toLocaleString()}
         </TableRowColumn>
         <TableRowColumn width={100}>
           {formatToUsd.format(portfolio.coinData.price_usd)}
@@ -99,10 +108,10 @@ export class Portfolio extends React.Component {
           {portfolio.coinData.percent_change_7d}%
         </TableRowColumn>
         <TableRowColumn width={100}>
-        ${parseInt(portfolio.coinData['24h_volume_usd'], 10).toLocaleString()}
+          ${parseInt(portfolio.coinData['24h_volume_usd'], 10).toLocaleString()}
         </TableRowColumn>
         <TableRowColumn>
-          <TrashIcon />
+          <TrashIcon onClick={() => this.handleRemove(index)}/>
         </TableRowColumn>
       </TableRow>
     );
@@ -124,9 +133,8 @@ export class Portfolio extends React.Component {
     }, 0);
   }
 
-
   render() {
-    const options = topCoinsJson;
+    const options = getPortfolioOptions(this.props.portfolio);
     return (
       <div>
         <h3 className="center">
@@ -137,21 +145,21 @@ export class Portfolio extends React.Component {
         </h3>
 
         <form onSubmit={this.handleSubmit} className="form">
-            <Select
-              wrapperStyle={{ ...searchStyle }}
-              options={options}
-              simpleValue
-              clearable
-              searchable
-              labelKey="symbol"
-              valueKey="id"
-              onChange={selectValue =>
-                this.props.selectedPortfolioCurrency(selectValue)
-              }
-              value={this.props.portfolio.selectedValue}
-              placeholder="Select a coin"
-              noResultsText="No coin found"
-            />
+          <Select
+            wrapperStyle={{ ...searchStyle }}
+            options={options}
+            simpleValue
+            clearable
+            searchable
+            labelKey="symbol"
+            valueKey="id"
+            onChange={selectValue =>
+              this.props.selectedPortfolioCurrency(selectValue)
+            }
+            value={this.props.portfolio.selectedValue}
+            placeholder="Select a coin"
+            noResultsText="No coin found"
+          />
 
           <TextField
             hintText="Enter the amount owned"
@@ -212,7 +220,8 @@ Portfolio.propTypes = {
   }),
   addCoinFail: PropTypes.func,
   addToPortfolio: PropTypes.func,
-  selectedPortfolioCurrency: PropTypes.func
+  selectedPortfolioCurrency: PropTypes.func,
+  removeSavedPortfolioCoin: PropTypes.func
 };
 
 Portfolio.defaultProps = {
@@ -228,5 +237,6 @@ const mapStateToProps = state => ({
 export default connect(mapStateToProps, {
   addToPortfolio,
   addCoinFail,
-  selectedPortfolioCurrency
+  selectedPortfolioCurrency,
+  removeSavedPortfolioCoin
 })(Portfolio);
