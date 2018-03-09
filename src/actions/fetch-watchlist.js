@@ -6,6 +6,12 @@ export const fetchSavedCoins = savedCoins => ({
   savedCoins
 });
 
+export const REMOVE_SAVED_COIN = 'REMOVE_SAVED_COIN';
+export const removeSavedCoin = index => ({
+  type: REMOVE_SAVED_COIN,
+  index
+});
+
 export const FETCH_COIN_SUCCESS = 'FETCH_COIN_SUCCESS';
 export const fetchCoinSuccess = cryptoData => ({
   type: FETCH_COIN_SUCCESS,
@@ -18,9 +24,9 @@ export const fetchCoinFail = errorMessage => ({
   errorMessage
 });
 
-export const SELECTED_CURRENCY = 'SELECTED_CURRENCY';
+export const SELECTED_WATCHLIST_CURRENCY = 'SELECTED_WATCHLIST_CURRENCY';
 export const selectedCurrency = selectedValue => ({
-  type: SELECTED_CURRENCY,
+  type: SELECTED_WATCHLIST_CURRENCY,
   selectedValue
 });
 
@@ -34,12 +40,13 @@ export const fetchCoins = coinName => dispatch => {
   axios.defaults.withCredentials = true;
   axios('http://localhost:8080/login', {
     method: 'post',
-    withCredentials: 'true',
+    withCredentials: 'true'
   }).then(axios
     .post(`http://localhost:8080/api/watchlist/${coinName}`)
     .then(res => res.data)
     .then(data => {
-      const upperCaseCoinName = coinName.charAt(0).toUpperCase() + coinName.slice(1);
+      const upperCaseCoinName =
+          coinName.charAt(0).toUpperCase() + coinName.slice(1);
       const error = `${upperCaseCoinName} already in watchlist`;
       if (data === error) {
         dispatch(fetchCoinFail(data));
@@ -47,4 +54,11 @@ export const fetchCoins = coinName => dispatch => {
         dispatch(fetchCoinSuccess(data));
       }
     }));
+};
+
+export const deleteWatchlistCoinFromDb = (coinName, index) => dispatch => {
+  axios
+    .delete(`http://localhost:8080/api/watchlist/${coinName}`)
+    .then(res => res.data)
+    .then(dispatch(removeSavedCoin(index)));
 };
