@@ -2,12 +2,10 @@ import {
   FETCH_COIN_SUCCESS,
   FETCH_SAVED_COINS,
   SELECTED_WATCHLIST_CURRENCY,
-  FETCH_COIN_FAIL,
   REMOVE_SAVED_COIN,
   fetchCoinSuccess,
   fetchSavedCoins,
   selectedCurrency,
-  fetchCoinFail,
   removeSavedCoin
 } from './fetch-watchlist';
 
@@ -38,21 +36,11 @@ describe('fetchCoinSuccess', () => {
   });
 });
 
-describe('fetchCoinFail', () => {
-  it('Should return the action', () => {
-    const error = 'Bitcoin is already in watchlist';
-    const action = fetchCoinFail(error);
-    expect(action.type).toEqual(FETCH_COIN_FAIL);
-    expect(action.errorMessage).toEqual(error);
-  });
-});
-
 describe('removeSavedCoin', () => {
   it('Finds the index to remove', () => {
-    const index = '1';
-    const action = removeSavedCoin(index);
+    const action = removeSavedCoin(1);
     expect(action.type).toEqual(REMOVE_SAVED_COIN);
-    expect(action.index).toEqual(index);
+    expect(action.index).toEqual(1);
   });
 });
 
