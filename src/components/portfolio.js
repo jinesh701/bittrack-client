@@ -5,6 +5,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Paper from 'material-ui/Paper';
+import TrashIcon from 'material-ui/svg-icons/action/delete';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import Select from 'react-select';
@@ -100,6 +101,9 @@ class Portfolio extends React.Component {
         <TableRowColumn width={100}>
         ${parseInt(portfolio.coinData['24h_volume_usd'], 10).toLocaleString()}
         </TableRowColumn>
+        <TableRowColumn>
+          <TrashIcon />
+        </TableRowColumn>
       </TableRow>
     );
   }
@@ -170,8 +174,8 @@ class Portfolio extends React.Component {
         </form>
 
         <Paper>
-          <Table fixedHeader={false}>
-            <TableHeader>
+          <Table fixedHeader={false} selectable={false}>
+            <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
               <TableRow>
                 <TableHeaderColumn width={100}>Name</TableHeaderColumn>
                 <TableHeaderColumn width={100}>Holdings</TableHeaderColumn>
@@ -187,9 +191,10 @@ class Portfolio extends React.Component {
                 <TableHeaderColumn width={100}>
                   Volume (24 Hr)
                 </TableHeaderColumn>
+                <TableHeaderColumn width={20} />
               </TableRow>
             </TableHeader>
-            <TableBody>
+            <TableBody displayRowCheckbox={false} showRowHover={true}>
               {this.props.portfolio.coinData.map(this.portfolioRow)}
             </TableBody>
           </Table>
