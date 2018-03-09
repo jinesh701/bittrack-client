@@ -74,7 +74,6 @@ export class Portfolio extends React.Component {
     this.props.portfolio.selectedValue = '';
   }
 
-
   handleRemove(index) {
     this.props.removeSavedPortfolioCoin(index);
   }
@@ -111,7 +110,7 @@ export class Portfolio extends React.Component {
           ${parseInt(portfolio.coinData['24h_volume_usd'], 10).toLocaleString()}
         </TableRowColumn>
         <TableRowColumn>
-          <TrashIcon onClick={() => this.handleRemove(index)}/>
+          <TrashIcon onClick={() => this.handleRemove(index)} />
         </TableRowColumn>
       </TableRow>
     );
@@ -153,6 +152,7 @@ export class Portfolio extends React.Component {
             searchable
             labelKey="symbol"
             valueKey="id"
+            required={true}
             onChange={selectValue =>
               this.props.selectedPortfolioCurrency(selectValue)
             }
