@@ -21,6 +21,7 @@ import {
 } from 'material-ui/Table';
 
 import {
+  fetchSavedPortfolio,
   addToPortfolio,
   selectedPortfolioCurrency,
   addCoinFail,
@@ -55,6 +56,12 @@ export class Portfolio extends React.Component {
     this.handleRemove = this.handleRemove.bind(this);
   }
 
+  componentDidMount() {
+    if (this.props.fetchSavedPortfolio) {
+      this.props.fetchSavedPortfolio();
+    }
+  }
+
   handleSubmit(event) {
     event.preventDefault();
 
@@ -87,27 +94,27 @@ export class Portfolio extends React.Component {
     });
     return (
       <TableRow key={index}>
-        <TableRowColumn width={100}>{portfolio.coinData.name}</TableRowColumn>
+        <TableRowColumn width={100}>{portfolio.name}</TableRowColumn>
         <TableRowColumn width={100}>
-          {parseInt(portfolio.userHoldings, 10).toLocaleString()}
+          {parseInt(portfolio.holdings, 10).toLocaleString()}
         </TableRowColumn>
         <TableRowColumn width={100}>
-          {formatToUsd.format(portfolio.coinData.price_usd)}
+          {formatToUsd.format(portfolio.price_usd)}
         </TableRowColumn>
         <TableRowColumn width={100}>
-          ฿{portfolio.coinData.price_btc}
+          ฿{portfolio.price_btc}
         </TableRowColumn>
         <TableRowColumn width={100}>
-          {portfolio.coinData.percent_change_1h}%
+          {portfolio.percent_change_1h}%
         </TableRowColumn>
         <TableRowColumn width={100}>
-          {portfolio.coinData.percent_change_24h}%
+          {portfolio.percent_change_24h}%
         </TableRowColumn>
         <TableRowColumn width={100}>
-          {portfolio.coinData.percent_change_7d}%
+          {portfolio.percent_change_7d}%
         </TableRowColumn>
         <TableRowColumn width={100}>
-          ${parseInt(portfolio.coinData['24h_volume_usd'], 10).toLocaleString()}
+          ${parseInt(portfolio['24h_volume_usd'], 10).toLocaleString()}
         </TableRowColumn>
         <TableRowColumn>
           <TrashIcon onClick={() => this.handleRemove(index)} />
@@ -119,7 +126,7 @@ export class Portfolio extends React.Component {
   portfolioValueUsd(portfolio) {
     return portfolio.reduce((acum, item) => {
       let portfolioValue = acum;
-      portfolioValue += item.coinData.price_usd * item.userHoldings;
+      portfolioValue += item.price_usd * item.holdings;
       return portfolioValue;
     }, 0);
   }
@@ -127,7 +134,7 @@ export class Portfolio extends React.Component {
   portfolioValueBtc(portfolio) {
     return portfolio.reduce((acum, item) => {
       let portfolioValue = acum;
-      portfolioValue += item.coinData.price_btc * item.userHoldings;
+      portfolioValue += item.price_btc * item.holdings;
       return portfolioValue;
     }, 0);
   }
@@ -165,6 +172,7 @@ export class Portfolio extends React.Component {
             hintText="Enter the amount owned"
             floatingLabelText="Amount brought"
             type="number"
+            name="holdings"
             ref={holdings => {
               this.inputRef = holdings;
             }}
@@ -218,6 +226,7 @@ Portfolio.propTypes = {
     errorText: PropTypes.string,
     selectedValue: PropTypes.string
   }),
+  fetchSavedPortfolio: PropTypes.func,
   addCoinFail: PropTypes.func,
   addToPortfolio: PropTypes.func,
   selectedPortfolioCurrency: PropTypes.func,
@@ -235,6 +244,7 @@ const mapStateToProps = state => ({
 });
 
 export default connect(mapStateToProps, {
+  fetchSavedPortfolio,
   addToPortfolio,
   addCoinFail,
   selectedPortfolioCurrency,
