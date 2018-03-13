@@ -8,14 +8,9 @@ const initialState = {
 
 export default function portfolioReducer(state = initialState, action) {
   if (action.type === actions.ADD_COIN_TO_PORTFOLIO) {
+    const mergedItems = Object.assign({}, ...state, action.cryptoData, { holdings: action.holdings });
     return Object.assign({}, state, {
-      coinData: [
-        ...state.coinData,
-        {
-          coinData: action.cryptoData,
-          userHoldings: action.userHoldings
-        }
-      ]
+      coinData: [...state.coinData, mergedItems]
     });
   } else if (action.type === actions.FETCH_SAVED_PORTFOLIO_COINS) {
     return Object.assign({}, state, {
