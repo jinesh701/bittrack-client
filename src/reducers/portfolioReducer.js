@@ -17,6 +17,10 @@ export default function portfolioReducer(state = initialState, action) {
         }
       ]
     });
+  } else if (action.type === actions.FETCH_SAVED_PORTFOLIO_COINS) {
+    return Object.assign({}, state, {
+      coinData: action.savedCoins
+    });
   } else if (action.type === actions.SELECTED_PORTFOLIO_CURRENCY) {
     return Object.assign({}, state, {
       selectedValue: action.selectedValue
