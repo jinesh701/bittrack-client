@@ -49,3 +49,11 @@ export const addToPortfolio = (coinName, holdings) => dispatch => {
       dispatch(addCoinSuccess(data, holdings));
     }));
 };
+
+export const deletePortfolioCoinFromDb = (coinName, index) => dispatch => {
+  axios
+    .delete(`http://localhost:8080/api/portfolio/${coinName}`)
+    .then(res => res.data)
+    .then(dispatch(removeSavedPortfolioCoin(index)));
+};
+
