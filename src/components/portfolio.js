@@ -25,7 +25,7 @@ import {
   addToPortfolio,
   selectedPortfolioCurrency,
   addCoinFail,
-  removeSavedPortfolioCoin
+  deletePortfolioCoinFromDb
 } from '../actions/fetch-portfolio';
 
 import './portfolio.css';
@@ -81,8 +81,8 @@ export class Portfolio extends React.Component {
     this.props.portfolio.selectedValue = '';
   }
 
-  handleRemove(index) {
-    this.props.removeSavedPortfolioCoin(index);
+  handleRemove(id, index) {
+    this.props.deletePortfolioCoinFromDb(id, index);
   }
 
   portfolioRow(portfolio, index) {
@@ -117,7 +117,7 @@ export class Portfolio extends React.Component {
           ${parseInt(portfolio['24h_volume_usd'], 10).toLocaleString()}
         </TableRowColumn>
         <TableRowColumn>
-          <TrashIcon onClick={() => this.handleRemove(index)} />
+        <TrashIcon onClick={() => this.handleRemove(portfolio.id, index)} />
         </TableRowColumn>
       </TableRow>
     );
@@ -231,7 +231,7 @@ Portfolio.propTypes = {
   addCoinFail: PropTypes.func,
   addToPortfolio: PropTypes.func,
   selectedPortfolioCurrency: PropTypes.func,
-  removeSavedPortfolioCoin: PropTypes.func
+  deletePortfolioCoinFromDb: PropTypes.func
 };
 
 Portfolio.defaultProps = {
@@ -249,5 +249,5 @@ export default connect(mapStateToProps, {
   addToPortfolio,
   addCoinFail,
   selectedPortfolioCurrency,
-  removeSavedPortfolioCoin
+  deletePortfolioCoinFromDb
 })(Portfolio);
