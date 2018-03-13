@@ -173,6 +173,7 @@ export class Portfolio extends React.Component {
             floatingLabelText="Amount brought"
             type="number"
             name="holdings"
+            id="holdings"
             ref={holdings => {
               this.inputRef = holdings;
             }}
