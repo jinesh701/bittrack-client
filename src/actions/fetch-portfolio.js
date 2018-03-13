@@ -1,5 +1,4 @@
 import axios from 'axios';
-import topCoinsJson from '../topCoinsJson.json';
 
 export const FETCH_SAVED_PORTFOLIO_COINS = 'FETCH_SAVED_PORTFOLIO_COINS';
 export const fetchSavedPortfolioCoins = savedCoins => ({
@@ -14,10 +13,10 @@ export const removeSavedPortfolioCoin = index => ({
 });
 
 export const ADD_COIN_TO_PORTFOLIO = 'ADD_COIN_TO_PORTFOLIO';
-export const addCoinSuccess = (cryptoData, userHoldings) => ({
+export const addCoinSuccess = (cryptoData, holdings) => ({
   type: ADD_COIN_TO_PORTFOLIO,
   cryptoData,
-  userHoldings
+  holdings
 });
 
 export const ADD_COIN_FAIL = 'ADD_COIN_FAIL';
@@ -38,7 +37,15 @@ export const fetchSavedPortfolio = () => dispatch =>
     .then(res => res.data)
     .then(portfolios => dispatch(fetchSavedPortfolioCoins(portfolios)));
 
-export const addToPortfolio = (coinName, userHoldings) => dispatch =>
-  Promise.resolve(topCoinsJson.find(element => element.id === coinName)).then(coin => {
-    dispatch(addCoinSuccess(coin, userHoldings));
-  });
+export const addToPortfolio = (coinName, holdings) => dispatch => {
+  axios.defaults.withCredentials = true;
+  axios('http://localhost:8080/login', {
+    method: 'post',
+    withCredentials: 'true'
+  }).then(axios
+    .post(`http://localhost:8080/api/portfolio/${coinName}`, { holdings })
+    .then(res => res.data)
+    .then(data => {
+      dispatch(addCoinSuccess(data, holdings));
+    }));
+};
