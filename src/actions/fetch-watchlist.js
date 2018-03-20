@@ -26,17 +26,17 @@ export const selectedCurrency = selectedValue => ({
 
 export const fetchSavedWatchlist = () => dispatch =>
   axios
-    .get('http://localhost:8080/api/watchlist')
+    .get('https://floating-harbor-45364.herokuapp.com/api/watchlist')
     .then(res => res.data)
     .then(watchlist => dispatch(fetchSavedCoins(watchlist)));
 
 export const fetchCoins = coinName => dispatch => {
   axios.defaults.withCredentials = true;
-  axios('http://localhost:8080/login', {
+  axios('https://floating-harbor-45364.herokuapp.com/login', {
     method: 'post',
     withCredentials: 'true'
   }).then(axios
-    .post(`http://localhost:8080/api/watchlist/${coinName}`)
+    .post(`https://floating-harbor-45364.herokuapp.com/api/watchlist/${coinName}`)
     .then(res => res.data)
     .then(data => {
       dispatch(fetchCoinSuccess(data));
@@ -45,7 +45,7 @@ export const fetchCoins = coinName => dispatch => {
 
 export const deleteWatchlistCoinFromDb = (coinName, index) => dispatch => {
   axios
-    .delete(`http://localhost:8080/api/watchlist/${coinName}`)
+    .delete(`https://floating-harbor-45364.herokuapp.com/api/watchlist/${coinName}`)
     .then(res => res.data)
     .then(dispatch(removeSavedCoin(index)));
 };

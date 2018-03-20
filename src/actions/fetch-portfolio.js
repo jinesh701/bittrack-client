@@ -33,17 +33,17 @@ export const selectedPortfolioCurrency = selectedValue => ({
 
 export const fetchSavedPortfolio = () => dispatch =>
   axios
-    .get('http://localhost:8080/api/portfolio')
+    .get('https://floating-harbor-45364.herokuapp.com/api/portfolio')
     .then(res => res.data)
     .then(portfolios => dispatch(fetchSavedPortfolioCoins(portfolios)));
 
 export const addToPortfolio = (coinName, holdings) => dispatch => {
   axios.defaults.withCredentials = true;
-  axios('http://localhost:8080/login', {
+  axios('https://floating-harbor-45364.herokuapp.com/login', {
     method: 'post',
     withCredentials: 'true'
   }).then(axios
-    .post(`http://localhost:8080/api/portfolio/${coinName}`, { holdings })
+    .post(`https://floating-harbor-45364.herokuapp.com/api/portfolio/${coinName}`, { holdings })
     .then(res => res.data)
     .then(data => {
       dispatch(addCoinSuccess(data, holdings));
@@ -52,7 +52,7 @@ export const addToPortfolio = (coinName, holdings) => dispatch => {
 
 export const deletePortfolioCoinFromDb = (coinName, index) => dispatch => {
   axios
-    .delete(`http://localhost:8080/api/portfolio/${coinName}`)
+    .delete(`https://floating-harbor-45364.herokuapp.com/api/portfolio/${coinName}`)
     .then(res => res.data)
     .then(dispatch(removeSavedPortfolioCoin(index)));
 };
