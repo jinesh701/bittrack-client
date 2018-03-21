@@ -36,8 +36,7 @@ export const fetchSavedPortfolio = () => dispatch =>
     method: 'GET',
     headers: {
       'Content-Type': 'application/json'
-    },
-    body: JSON.stringify()
+    }
   })
     .then(res => res.json())
     .then(portfolios => dispatch(fetchSavedPortfolioCoins(portfolios)));
