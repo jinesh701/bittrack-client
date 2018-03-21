@@ -101,9 +101,7 @@ export class Portfolio extends React.Component {
         <TableRowColumn width={100}>
           {formatToUsd.format(portfolio.price_usd)}
         </TableRowColumn>
-        <TableRowColumn width={100}>
-          ฿{portfolio.price_btc}
-        </TableRowColumn>
+        <TableRowColumn width={100}>฿{portfolio.price_btc}</TableRowColumn>
         <TableRowColumn width={100}>
           {portfolio.percent_change_1h}%
         </TableRowColumn>
@@ -117,7 +115,7 @@ export class Portfolio extends React.Component {
           ${parseInt(portfolio['24h_volume_usd'], 10).toLocaleString()}
         </TableRowColumn>
         <TableRowColumn>
-        <TrashIcon onClick={() => this.handleRemove(portfolio.id, index)} />
+          <TrashIcon onClick={() => this.handleRemove(portfolio.id, index)} />
         </TableRowColumn>
       </TableRow>
     );
@@ -155,11 +153,11 @@ export class Portfolio extends React.Component {
             wrapperStyle={{ ...searchStyle }}
             options={options}
             simpleValue
+            required={true}
             clearable
             searchable
             labelKey="symbol"
             valueKey="id"
-            required={true}
             onChange={selectValue =>
               this.props.selectedPortfolioCurrency(selectValue)
             }
