@@ -1,4 +1,3 @@
-import axios from 'axios';
 import API_BASE_URL from '../config';
 
 export const FETCH_SAVED_PORTFOLIO_COINS = 'FETCH_SAVED_PORTFOLIO_COINS';
@@ -33,24 +32,44 @@ export const selectedPortfolioCurrency = selectedValue => ({
 });
 
 export const fetchSavedPortfolio = () => dispatch =>
-  axios
-    .get(`${API_BASE_URL}/portfolio`)
-    .then(res => res.data)
+  fetch(`${API_BASE_URL}/portfolio`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify()
+  })
+    .then(res => res.json())
     .then(portfolios => dispatch(fetchSavedPortfolioCoins(portfolios)));
 
 export const addToPortfolio = (coinName, holdings) => dispatch => {
-  axios
-    .post(`${API_BASE_URL}/portfolio/${coinName}`, { holdings })
-    .then(res => res.data)
+  fetch(`${API_BASE_URL}/portfolio/${coinName}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      coinName,
+      holdings
+    })
+  })
+    .then(res => res.json())
     .then(data => {
       dispatch(addCoinSuccess(data, holdings));
     });
 };
 
 export const deletePortfolioCoinFromDb = (coinName, index) => dispatch => {
-  axios
-    .delete(`${API_BASE_URL}/portfolio/${coinName}`)
-    .then(res => res.data)
+  fetch(`${API_BASE_URL}/portfolio/${coinName}`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      coinName,
+      index
+    })
+  })
     .then(dispatch(removeSavedPortfolioCoin(index)));
 };
 

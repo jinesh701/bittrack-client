@@ -1,4 +1,3 @@
-import axios from 'axios';
 import API_BASE_URL from '../config';
 
 export const FETCH_SAVED_COINS = 'FETCH_SAVED_COINS';
@@ -26,23 +25,42 @@ export const selectedCurrency = selectedValue => ({
 });
 
 export const fetchSavedWatchlist = () => dispatch =>
-  axios
-    .get(`${API_BASE_URL}/watchlist`)
-    .then(res => res.data)
-    .then(watchlist => dispatch(fetchSavedCoins(watchlist)));
+  fetch(`${API_BASE_URL}/watchlist`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify()
+  })
+    .then(res => res.json())
+    .then(watchlists => dispatch(fetchSavedCoins(watchlists)));
 
 export const fetchCoins = coinName => dispatch => {
-  axios
-    .post(`${API_BASE_URL}/watchlist/${coinName}`)
-    .then(res => res.data)
+  fetch(`${API_BASE_URL}/watchlist/${coinName}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      coinName
+    })
+  })
+    .then(res => res.json())
     .then(data => {
       dispatch(fetchCoinSuccess(data));
     });
 };
 
 export const deleteWatchlistCoinFromDb = (coinName, index) => dispatch => {
-  axios
-    .delete(`${API_BASE_URL}/watchlist/${coinName}`)
-    .then(res => res.data)
+  fetch(`${API_BASE_URL}/watchlist/${coinName}`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      coinName,
+      index
+    })
+  })
     .then(dispatch(removeSavedCoin(index)));
 };
