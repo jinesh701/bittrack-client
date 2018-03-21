@@ -5,7 +5,7 @@ const initialState = {
   selectedValue: ''
 };
 
-export default function watchlistReducer(state = initialState, action) {
+export default function reducer(state = initialState, action) {
   if (action.type === actions.FETCH_COIN_SUCCESS) {
     return Object.assign({}, state, {
       coinData: [...state.coinData, action.cryptoData],
