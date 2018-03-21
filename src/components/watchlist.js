@@ -45,7 +45,7 @@ export class Watchlist extends React.Component {
   constructor(props) {
     super(props);
 
-    this.fetchCoin = this.fetchCoin.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
 
     this.watchlistRow = this.watchlistRow.bind(this);
 
@@ -58,7 +58,9 @@ export class Watchlist extends React.Component {
     }
   }
 
-  fetchCoin() {
+  handleSubmit(event) {
+    event.preventDefault();
+
     this.props.fetchCoins(this.props.watchlist.selectedValue);
     this.props.watchlist.selectedValue = '';
   }
@@ -104,30 +106,33 @@ export class Watchlist extends React.Component {
     const options = getWatchlistOptions(this.props.watchlist);
     return (
       <div>
-        <div className="search-div">
-          <Select
-            wrapperStyle={{ ...searchStyle }}
-            options={options}
-            simpleValue
-            clearable
-            searchable
-            labelKey="symbol"
-            valueKey="id"
-            onChange={selectValue => this.props.selectedCurrency(selectValue)}
-            value={this.props.watchlist.selectedValue}
-            placeholder="Select a coin"
-            noResultsText="No coin found"
-          />
-
-          <div className="button">
-            <RaisedButton
-              label="Add Coin"
-              style={buttonStyle}
-              labelStyle={buttonStyle}
-              onClick={this.fetchCoin}
+        <form onSubmit={this.handleSubmit} className="form">
+          <div className="search-div">
+            <Select
+              wrapperStyle={{ ...searchStyle }}
+              options={options}
+              simpleValue
+              required={true}
+              clearable
+              searchable
+              labelKey="symbol"
+              valueKey="id"
+              onChange={selectValue => this.props.selectedCurrency(selectValue)}
+              value={this.props.watchlist.selectedValue}
+              placeholder="Select a coin"
+              noResultsText="No coin found"
             />
+
+            <div className="button">
+              <RaisedButton
+                type="submit"
+                label="Add Coin"
+                style={buttonStyle}
+                labelStyle={buttonStyle}
+              />
+            </div>
           </div>
-        </div>
+        </form>
 
         <Paper>
           <Table fixedHeader={false} selectable={false}>
