@@ -1,6 +1,5 @@
 import { createStore, applyMiddleware, combineReducers, compose } from 'redux';
 import { reducer as formReducer } from 'redux-form';
-import logger from 'redux-logger';
 import promise from 'redux-promise';
 import thunk from 'redux-thunk';
 import { loadAuthToken } from './local-storage';
@@ -16,7 +15,7 @@ const store = createStore(
     portfolio: portfolioReducer,
     watchlist: watchlistReducer
   }),
-  compose(applyMiddleware(thunk, promise, logger))
+  compose(applyMiddleware(thunk, promise))
 );
 
 const authToken = loadAuthToken();
