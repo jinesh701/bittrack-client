@@ -19,6 +19,7 @@ module.exports = {
     'react/jsx-uses-vars': 1,
     'react/display-name': 1,
     'no-console': 1,
-    'arrow-parens': ['error', 'as-needed']
+    'arrow-parens': ['error', 'as-needed'],
+    'import/no-named-as-default': 0
   }
 };
