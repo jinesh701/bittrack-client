@@ -44,32 +44,30 @@ const storeAuthInfo = (authToken, dispatch) => {
 
 export const login = (username, password) => dispatch => {
   dispatch(authRequest());
-  return (
-    fetch(`${API_BASE_URL}/auth/login`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        username,
-        password
-      })
+  return fetch(`${API_BASE_URL}/auth/login`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      username,
+      password
     })
-      .then(res => normalizeResponseErrors(res))
-      .then(res => res.json())
-      .then(({ authToken }) => storeAuthInfo(authToken, dispatch))
-      .catch(err => {
-        const { code } = err;
-        const message =
-                    code === 401
-                      ? 'Incorrect username or password'
-                      : 'Unable to login, please try again';
-        dispatch(authError(err));
-        return Promise.reject(new SubmissionError({
-          _error: message
-        }));
-      })
-  );
+  })
+    .then(res => normalizeResponseErrors(res))
+    .then(res => res.json())
+    .then(({ authToken }) => storeAuthInfo(authToken, dispatch))
+    .catch(err => {
+      const { code } = err;
+      const message =
+        code === 401
+          ? 'Incorrect username or password'
+          : 'Unable to login, please try again';
+      dispatch(authError(err));
+      return Promise.reject(new SubmissionError({
+        _error: message
+      }));
+    });
 };
 
 export const refreshAuthToken = () => (dispatch, getState) => {
