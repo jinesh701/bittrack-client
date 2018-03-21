@@ -1,4 +1,5 @@
 import axios from 'axios';
+import API_BASE_URL from '../config';
 
 export const FETCH_SAVED_PORTFOLIO_COINS = 'FETCH_SAVED_PORTFOLIO_COINS';
 export const fetchSavedPortfolioCoins = savedCoins => ({
@@ -33,26 +34,22 @@ export const selectedPortfolioCurrency = selectedValue => ({
 
 export const fetchSavedPortfolio = () => dispatch =>
   axios
-    .get('https://floating-harbor-45364.herokuapp.com/api/portfolio')
+    .get(`${API_BASE_URL}/portfolio`)
     .then(res => res.data)
     .then(portfolios => dispatch(fetchSavedPortfolioCoins(portfolios)));
 
 export const addToPortfolio = (coinName, holdings) => dispatch => {
-  axios.defaults.withCredentials = true;
-  axios('https://floating-harbor-45364.herokuapp.com/login', {
-    method: 'post',
-    withCredentials: 'true'
-  }).then(axios
-    .post(`https://floating-harbor-45364.herokuapp.com/api/portfolio/${coinName}`, { holdings })
+  axios
+    .post(`${API_BASE_URL}/portfolio/${coinName}`, { holdings })
     .then(res => res.data)
     .then(data => {
       dispatch(addCoinSuccess(data, holdings));
-    }));
+    });
 };
 
 export const deletePortfolioCoinFromDb = (coinName, index) => dispatch => {
   axios
-    .delete(`https://floating-harbor-45364.herokuapp.com/api/portfolio/${coinName}`)
+    .delete(`${API_BASE_URL}/portfolio/${coinName}`)
     .then(res => res.data)
     .then(dispatch(removeSavedPortfolioCoin(index)));
 };
