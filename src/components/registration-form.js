@@ -2,9 +2,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Field, reduxForm, focus } from 'redux-form';
 import { TextField } from 'redux-form-material-ui';
+import RaisedButton from 'material-ui/RaisedButton';
 import registerUser from '../actions/users';
 import { login } from '../actions/auth';
 import { required, nonEmpty, matches, length, isTrimmed } from '../validators';
+
+const buttonStyle = {
+  fontSize: 10,
+  height: 20,
+  margin: 5
+};
 
 const passwordLength = length({ min: 6, max: 72 });
 const matchesPassword = matches('password');
@@ -56,12 +63,13 @@ export class RegistrationForm extends React.Component {
             validate={[required, nonEmpty, matchesPassword]}
           />
         </div>
-        <button
+        <RaisedButton
+          label="Register"
           type="submit"
           disabled={this.props.pristine || this.props.submitting}
-        >
-          Register
-        </button>
+          style={buttonStyle}
+          labelStyle={buttonStyle}
+        />
       </form>
     );
   }

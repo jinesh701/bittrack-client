@@ -40,7 +40,8 @@ const buttonStyle = {
 
 const searchStyle = {
   width: 150,
-  margin: '0 auto'
+  margin: '0 auto',
+  zIndex: 100
 };
 
 export class Portfolio extends React.Component {
