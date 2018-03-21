@@ -1,4 +1,4 @@
-import API_BASE_URL from '../config';
+import { API_BASE_URL } from '../config';
 
 export const FETCH_SAVED_COINS = 'FETCH_SAVED_COINS';
 export const fetchSavedCoins = savedCoins => ({
