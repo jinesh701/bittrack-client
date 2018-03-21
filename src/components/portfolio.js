@@ -96,9 +96,7 @@ export class Portfolio extends React.Component {
     return (
       <TableRow key={index}>
         <TableRowColumn width={100}>{portfolio.name}</TableRowColumn>
-        <TableRowColumn width={100}>
-          {parseInt(portfolio.holdings, 10).toLocaleString()}
-        </TableRowColumn>
+        <TableRowColumn width={100}>{portfolio.holdings}</TableRowColumn>
         <TableRowColumn width={100}>
           {formatToUsd.format(portfolio.price_usd)}
         </TableRowColumn>
@@ -170,6 +168,8 @@ export class Portfolio extends React.Component {
           <TextField
             hintText="Enter the amount owned"
             floatingLabelText="Amount brought"
+            min="0.01"
+            step="any"
             type="number"
             name="holdings"
             id="holdings"
