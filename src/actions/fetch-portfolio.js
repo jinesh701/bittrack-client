@@ -31,20 +31,27 @@ export const selectedPortfolioCurrency = selectedValue => ({
   selectedValue
 });
 
-export const fetchSavedPortfolio = () => dispatch =>
+export const fetchSavedPortfolio = () => (dispatch, getState) => {
+  const authToken = getState().auth.authToken;
+
   fetch(`${API_BASE_URL}/portfolio`, {
     method: 'GET',
     headers: {
-      'Content-Type': 'application/json'
+      Authorization: `Bearer ${authToken}`,
+      'Content-Type': 'application/json',
     }
   })
     .then(res => res.json())
     .then(portfolios => dispatch(fetchSavedPortfolioCoins(portfolios)));
+};
 
-export const addToPortfolio = (coinName, holdings) => dispatch => {
+export const addToPortfolio = (coinName, holdings) => (dispatch, getState) => {
+  const authToken = getState().auth.authToken;
+
   fetch(`${API_BASE_URL}/portfolio/${coinName}`, {
     method: 'POST',
     headers: {
+      Authorization: `Bearer ${authToken}`,
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
@@ -58,10 +65,13 @@ export const addToPortfolio = (coinName, holdings) => dispatch => {
     });
 };
 
-export const deletePortfolioCoinFromDb = (coinName, index) => dispatch => {
+export const deletePortfolioCoinFromDb = (coinName, index) => (dispatch, getState) => {
+  const authToken = getState().auth.authToken;
+
   fetch(`${API_BASE_URL}/portfolio/${coinName}`, {
     method: 'DELETE',
     headers: {
+      Authorization: `Bearer ${authToken}`,
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({

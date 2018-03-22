@@ -24,20 +24,27 @@ export const selectedCurrency = selectedValue => ({
   selectedValue
 });
 
-export const fetchSavedWatchlist = () => dispatch =>
+export const fetchSavedWatchlist = () => (dispatch, getState) => {
+  const authToken = getState().auth.authToken;
+
   fetch(`${API_BASE_URL}/watchlist`, {
     method: 'GET',
     headers: {
+      Authorization: `Bearer ${authToken}`,
       'Content-Type': 'application/json'
     }
   })
     .then(res => res.json())
     .then(watchlists => dispatch(fetchSavedCoins(watchlists)));
+};
 
-export const fetchCoins = coinName => dispatch => {
+export const fetchCoins = coinName => (dispatch, getState) => {
+  const authToken = getState().auth.authToken;
+
   fetch(`${API_BASE_URL}/watchlist/${coinName}`, {
     method: 'POST',
     headers: {
+      Authorization: `Bearer ${authToken}`,
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
@@ -50,10 +57,13 @@ export const fetchCoins = coinName => dispatch => {
     });
 };
 
-export const deleteWatchlistCoinFromDb = (coinName, index) => dispatch => {
+export const deleteWatchlistCoinFromDb = (coinName, index) => (dispatch, getState) => {
+  const authToken = getState().auth.authToken;
+
   fetch(`${API_BASE_URL}/watchlist/${coinName}`, {
     method: 'DELETE',
     headers: {
+      Authorization: `Bearer ${authToken}`,
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
