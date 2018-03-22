@@ -135,7 +135,11 @@ export class Watchlist extends React.Component {
         </form>
 
         <Paper>
-          <Table fixedHeader={false} selectable={false}>
+          <Table
+            bodyStyle={{ overflow: 'auto' }}
+            fixedHeader={false}
+            selectable={false}
+          >
             <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
               <TableRow>
                 <TableHeaderColumn width={100}>Name</TableHeaderColumn>
