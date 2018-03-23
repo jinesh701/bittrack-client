@@ -177,6 +177,8 @@ export class Portfolio extends React.Component {
               this.inputRef = holdings;
             }}
             errorText={this.props.portfolio.errorText}
+            floatingLabelShrinkStyle={{ color: '#673ab7' }}
+            underlineFocusStyle={{ borderColor: '#673ab7' }}
           />
 
           <div>
