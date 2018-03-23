@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Field, reduxForm, focus } from 'redux-form';
+import { Link } from 'react-router-dom';
 import { TextField } from 'redux-form-material-ui';
 import RaisedButton from 'material-ui/RaisedButton';
 import { login } from '../actions/auth';
@@ -9,8 +10,8 @@ import { required, nonEmpty } from '../validators';
 import './login-form.css';
 
 const buttonStyle = {
-  fontSize: 10,
-  height: 20,
+  fontSize: 12,
+  height: 40,
   margin: 5
 };
 
@@ -34,34 +35,48 @@ export class LoginForm extends React.Component {
         onSubmit={this.props.handleSubmit(values => this.onSubmit(values))}
       >
         {error}
-        <div>
+        <div className="username-div">
           <Field
             name="username"
             component={TextField}
-            hintText="username"
-            floatingLabelText="username"
+            hintText="Username"
+            floatingLabelText="Username"
             id="username"
             validate={[required, nonEmpty]}
+            floatingLabelShrinkStyle={{ color: '#673ab7' }}
+            underlineFocusStyle={{ borderColor: '#673ab7' }}
+            style={{ float: 'left', marginLeft: 20 }}
           />
         </div>
-        <div>
+        <div className="password-div">
           <Field
             component={TextField}
-            hintText="password"
-            floatingLabelText="password"
+            hintText="Password"
+            floatingLabelText="Password"
             type="password"
             name="password"
             id="password"
             validate={[required, nonEmpty]}
+            floatingLabelShrinkStyle={{ color: '#673ab7' }}
+            underlineFocusStyle={{ borderColor: '#673ab7' }}
+            style={{ float: 'left', marginLeft: 20 }}
           />
         </div>
-        <RaisedButton
-          type="submit"
-          label="Log in"
-          disabled={this.props.pristine || this.props.submitting}
-          style={buttonStyle}
-          labelStyle={buttonStyle}
-        />
+        <div className="login-button">
+          <RaisedButton
+            type="submit"
+            label="Log in"
+            fullWidth={true}
+            disabled={this.props.pristine || this.props.submitting}
+            style={buttonStyle}
+            labelStyle={buttonStyle}
+          />
+        </div>
+
+        <div className="not-registered">
+          <span>Don't have an account? </span>
+          <Link to="/register">Sign up</Link>
+        </div>
       </form>
     );
   }

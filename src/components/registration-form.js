@@ -1,15 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Field, reduxForm, focus } from 'redux-form';
+import { Link } from 'react-router-dom';
 import { TextField } from 'redux-form-material-ui';
 import RaisedButton from 'material-ui/RaisedButton';
 import registerUser from '../actions/users';
 import { login } from '../actions/auth';
 import { required, nonEmpty, matches, length, isTrimmed } from '../validators';
+import './registration-form.css';
 
 const buttonStyle = {
-  fontSize: 10,
-  height: 20,
+  fontSize: 12,
+  height: 40,
   margin: 5
 };
 
@@ -31,45 +33,62 @@ export class RegistrationForm extends React.Component {
   render() {
     return (
       <form
-        className="login-form"
+        className="registration-form"
         onSubmit={this.props.handleSubmit(values => this.onSubmit(values))}
       >
         <div>
           <Field
             component={TextField}
-            hintText="username"
-            floatingLabelText="username"
+            hintText="Username"
+            floatingLabelText="Username"
             name="username"
             validate={[required, nonEmpty, isTrimmed]}
+            floatingLabelShrinkStyle={{ color: '#673ab7' }}
+            underlineFocusStyle={{ borderColor: '#673ab7' }}
+            style={{ float: 'left', marginLeft: 20 }}
           />
         </div>
         <div>
           <Field
             component={TextField}
-            hintText="password"
-            floatingLabelText="password"
+            hintText="Password"
+            floatingLabelText="Password"
             type="password"
             name="password"
             validate={[required, passwordLength, isTrimmed]}
+            floatingLabelShrinkStyle={{ color: '#673ab7' }}
+            underlineFocusStyle={{ borderColor: '#673ab7' }}
+            style={{ float: 'left', marginLeft: 20 }}
           />
         </div>
-        <div>
+        <div className="confirm-password-div">
           <Field
             component={TextField}
             type="password"
             name="passwordConfirm"
-            hintText="confirm password"
-            floatingLabelText="confirm password"
+            hintText="Confirm Password"
+            floatingLabelText="Confirm Password"
             validate={[required, nonEmpty, matchesPassword]}
+            floatingLabelShrinkStyle={{ color: '#673ab7' }}
+            underlineFocusStyle={{ borderColor: '#673ab7' }}
+            style={{ float: 'left', marginLeft: 20 }}
           />
         </div>
-        <RaisedButton
-          label="Register"
-          type="submit"
-          disabled={this.props.pristine || this.props.submitting}
-          style={buttonStyle}
-          labelStyle={buttonStyle}
-        />
+        <div className="register-button">
+          <RaisedButton
+            label="Register"
+            type="submit"
+            fullWidth={true}
+            disabled={this.props.pristine || this.props.submitting}
+            style={buttonStyle}
+            labelStyle={buttonStyle}
+          />
+        </div>
+
+        <div className="prev-registered">
+          <span>Have an account? </span>
+          <Link to="/login">Login</Link>
+        </div>
       </form>
     );
   }

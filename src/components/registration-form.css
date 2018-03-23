@@ -1,26 +1,22 @@
-.login-form {
+.registration-form {
   margin-left: auto;
   margin-right: auto;
   margin-top: 140px;
   padding-top: 40px;
   padding-bottom: 40px;
   width: 300px;
-  height: 253px;
+  height: 320px;
   text-align: center;
   box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px;
   border-radius: 2px;
 }
 
-.password-div {
-  padding-top: 20px;
-}
-
-.login-button {
-  margin-top: 150px;
+.register-button {
+  margin-top: 250px;
   margin-left: 10px;
   width: 90%;
 }
 
-.not-registered {
+.prev-registered {
   padding-top: 20px;
 }
