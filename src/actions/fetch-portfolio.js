@@ -31,6 +31,12 @@ export const selectedPortfolioCurrency = selectedValue => ({
   selectedValue
 });
 
+export const SELECT_HOLDINGS = 'SELECT_HOLDINGS';
+export const selectHoldings = holdings => ({
+  type: SELECT_HOLDINGS,
+  holdings
+});
+
 export const fetchSavedPortfolio = () => (dispatch, getState) => {
   const authToken = getState().auth.authToken;
 
@@ -38,7 +44,7 @@ export const fetchSavedPortfolio = () => (dispatch, getState) => {
     method: 'GET',
     headers: {
       Authorization: `Bearer ${authToken}`,
-      'Content-Type': 'application/json',
+      'Content-Type': 'application/json'
     }
   })
     .then(res => res.json())
@@ -65,7 +71,10 @@ export const addToPortfolio = (coinName, holdings) => (dispatch, getState) => {
     });
 };
 
-export const deletePortfolioCoinFromDb = (coinName, index) => (dispatch, getState) => {
+export const deletePortfolioCoinFromDb = (coinName, index) => (
+  dispatch,
+  getState
+) => {
   const authToken = getState().auth.authToken;
 
   fetch(`${API_BASE_URL}/portfolio/${coinName}`, {
@@ -78,7 +87,5 @@ export const deletePortfolioCoinFromDb = (coinName, index) => (dispatch, getStat
       coinName,
       index
     })
-  })
-    .then(dispatch(removeSavedPortfolioCoin(index)));
+  }).then(dispatch(removeSavedPortfolioCoin(index)));
 };
-

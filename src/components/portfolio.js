@@ -24,6 +24,7 @@ import {
   fetchSavedPortfolio,
   addToPortfolio,
   selectedPortfolioCurrency,
+  selectHoldings,
   addCoinFail,
   deletePortfolioCoinFromDb
 } from '../actions/fetch-portfolio';
@@ -48,8 +49,6 @@ export class Portfolio extends React.Component {
   constructor(props) {
     super(props);
 
-    this.inputRef = null;
-
     this.handleSubmit = this.handleSubmit.bind(this);
 
     this.portfolioRow = this.portfolioRow.bind(this);
@@ -66,20 +65,17 @@ export class Portfolio extends React.Component {
   handleSubmit(event) {
     event.preventDefault();
 
-    if (
-      this.props.portfolio.selectedValue === '' ||
-      this.inputRef.input.value === ''
-    ) {
+    if (this.props.portfolio.selectedValue === '') {
       this.props.addCoinFail('this field is required');
       return;
     }
     this.props.addToPortfolio(
       this.props.portfolio.selectedValue,
-      this.inputRef.input.value
+      this.props.portfolio.selectHoldings
     );
-    this.inputRef.input.value = '';
     this.props.portfolio.errorText = '';
     this.props.portfolio.selectedValue = '';
+    this.props.portfolio.selectHoldings = '';
   }
 
   handleRemove(id, index) {
@@ -141,7 +137,9 @@ export class Portfolio extends React.Component {
     return (
       <div>
         <h3 className="center">
-          Portfolio Value: ${this.portfolioValueUsd(this.props.portfolio.coinData).toLocaleString()}
+          Portfolio Value: ${this.portfolioValueUsd(
+            this.props.portfolio.coinData
+          ).toLocaleString()}
           <br />
           <br />
           ฿{this.portfolioValueBtc(this.props.portfolio.coinData)}
@@ -170,12 +168,11 @@ export class Portfolio extends React.Component {
             floatingLabelText="Amount brought"
             min="0.01"
             step="any"
-            type="number"
+            type="text"
             name="holdings"
             id="holdings"
-            ref={holdings => {
-              this.inputRef = holdings;
-            }}
+            onChange={e => this.props.selectHoldings(e.target.value)}
+            value={this.props.portfolio.selectHoldings}
             errorText={this.props.portfolio.errorText}
             floatingLabelShrinkStyle={{ color: '#673ab7' }}
             underlineFocusStyle={{ borderColor: '#673ab7' }}
@@ -230,12 +227,14 @@ Portfolio.propTypes = {
   portfolio: PropTypes.shape({
     coinData: PropTypes.array,
     errorText: PropTypes.string,
-    selectedValue: PropTypes.string
+    selectedValue: PropTypes.string,
+    selectHoldings: PropTypes.string
   }),
   fetchSavedPortfolio: PropTypes.func,
   addCoinFail: PropTypes.func,
   addToPortfolio: PropTypes.func,
   selectedPortfolioCurrency: PropTypes.func,
+  selectHoldings: PropTypes.func,
   deletePortfolioCoinFromDb: PropTypes.func
 };
 
@@ -254,5 +253,6 @@ export default connect(mapStateToProps, {
   addToPortfolio,
   addCoinFail,
   selectedPortfolioCurrency,
+  selectHoldings,
   deletePortfolioCoinFromDb
 })(Portfolio);

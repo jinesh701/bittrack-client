@@ -3,12 +3,15 @@ import * as actions from '../actions/fetch-portfolio';
 const initialState = {
   coinData: [],
   selectedValue: '',
+  selectHoldings: '',
   errorText: ''
 };
 
 export default function reducer(state = initialState, action) {
   if (action.type === actions.ADD_COIN_TO_PORTFOLIO) {
-    const mergedItems = Object.assign({}, ...state, action.cryptoData, { holdings: action.holdings });
+    const mergedItems = Object.assign({}, ...state, action.cryptoData, {
+      holdings: action.holdings
+    });
     return Object.assign({}, state, {
       coinData: [...state.coinData, mergedItems]
     });
@@ -28,6 +31,12 @@ export default function reducer(state = initialState, action) {
     return Object.assign({}, state, {
       coinData: [...state.coinData.filter((coin, i) => i !== action.index)]
     });
+  } else if (action.type === actions.SELECT_HOLDINGS) {
+    if (Number.isInteger(Number(action.holdings))) {
+      return Object.assign({}, state, {
+        selectHoldings: action.holdings
+      });
+    }
   }
   return state;
 }
