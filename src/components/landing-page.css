@@ -1,3 +1,84 @@
-.title {
-    text-align: center; 
+.image-size {
+  width: 200px;
+}
+
+.row-container {
+  text-align: center;
+  margin-top: 100px;
+}
+
+.first-div {
+  float: left;
+  display: inline;
+  width: 50%;
+}
+
+.second-div {
+  float: left;
+  display: inline;
+  width: 50%;
+}
+
+.description {
+  color: #56595c;
+  font-size: 18px;
+}
+
+.contacts {
+  text-align: center;
+  padding-top: 50px;
+}
+
+.footer-container {
+  color: #76828f;
+  background-color: #211c21;
+  height: 321px;
+  text-align: center;
+}
+
+a:link {
+  color: #76828f;
+}
+
+a:visited {
+  color: #76828f;
+}
+
+a:hover {
+  color: #673ab7;
+}
+
+.icon1 {
+  float: left;
+  display: inline;
+  width: 33.33%;
+}
+
+.icon2 {
+  float: left;
+  display: inline;
+  width: 33.33%;
+}
+
+.icon3 {
+  float: left;
+  display: inline;
+  width: 33.33%;
+}
+
+@media only screen and (max-width: 767px) {
+  .first-div,
+  .second-div,
+  .icon1,
+  .icon2,
+  .icon3 {
+    display: block;
+    float: none;
+    width: 100%;
+    padding: 20px 0;
+  }
+
+  .footer-container {
+    height: 390px;
+  }
 }

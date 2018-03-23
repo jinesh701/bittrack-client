@@ -53,8 +53,12 @@ export class HeaderBar extends React.Component {
       <div className="header-bar">
         <AppBar
           title="Bittrack"
-          titleStyle={{ textAlign: 'center' }}
-          iconClassNameRight="muidocs-icon-navigation-expand-more"
+          style={{ backgroundColor: '#673AB7', position: 'fixed', top: 0 }}
+          titleStyle={{
+            textAlign: 'center',
+            fontWeight: 600
+          }}
+          iconStyleLeft={{ fill: 'black', color: 'black' }}
           onLeftIconButtonClick={() => this.openMenu()}
         />
 
