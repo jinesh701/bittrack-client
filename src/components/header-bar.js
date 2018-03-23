@@ -1,65 +1,84 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import AppBar from 'material-ui/AppBar';
-import FlatButton from 'material-ui/FlatButton';
+import Drawer from 'material-ui/Drawer';
+import MenuItem from 'material-ui/MenuItem';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { openMenu, closeMenu } from '../actions/nav';
 import { clearAuth } from '../actions/auth';
 import { clearAuthToken } from '../local-storage';
 
 export class HeaderBar extends React.Component {
+  openMenu() {
+    this.props.dispatch(openMenu());
+  }
+
+  closeMenu() {
+    this.props.dispatch(closeMenu());
+  }
+
   logOut() {
     this.props.dispatch(clearAuth());
     clearAuthToken();
+    this.props.dispatch(closeMenu());
   }
 
   render() {
     let defaultButtons;
 
-    const buttonStyle = {
-      backgroundColor: 'transparent',
-      color: 'white'
-    };
-
     if (!this.props.loggedIn) {
       defaultButtons = (
         <div>
-          <Link to="/">
-            <FlatButton label="Home" style={buttonStyle} />
+          <Link to="/" style={{ textDecoration: 'none' }}>
+            <MenuItem onClick={() => this.closeMenu()}>Home</MenuItem>
           </Link>
-          <Link to="/login">
-            <FlatButton label="Log in" style={buttonStyle} />
+
+          <Link to="/login" style={{ textDecoration: 'none' }}>
+            <MenuItem onClick={() => this.closeMenu()}>Login</MenuItem>
           </Link>
-          <Link to="/register">
-            <FlatButton label="Register" style={buttonStyle} />
+
+          <Link to="/register" style={{ textDecoration: 'none' }}>
+            <MenuItem onClick={() => this.closeMenu()}>Register</MenuItem>
           </Link>
         </div>
       );
     } else {
       defaultButtons = (
-        <FlatButton label="Log out" onClick={() => this.logOut()} />
+        <MenuItem onClick={() => this.logOut()}>Log out</MenuItem>
       );
     }
 
     return (
       <div className="header-bar">
         <AppBar
-          showMenuIconButton={false}
           title="Bittrack"
-          iconElementRight={defaultButtons}
+          titleStyle={{ textAlign: 'center' }}
+          iconClassNameRight="muidocs-icon-navigation-expand-more"
+          onLeftIconButtonClick={() => this.openMenu()}
         />
+
+        <Drawer
+          open={this.props.open}
+          docked={false}
+          onRequestChange={() => this.closeMenu()}
+        >
+          {defaultButtons}
+        </Drawer>
       </div>
     );
   }
 }
 
 const mapStateToProps = state => ({
+  open: state.nav.open,
   loggedIn: state.auth.currentUser !== null
 });
 
 HeaderBar.propTypes = {
   dispatch: PropTypes.func,
-  loggedIn: PropTypes.bool
+  loggedIn: PropTypes.bool,
+  open: PropTypes.bool
 };
 
 export default connect(mapStateToProps)(HeaderBar);
