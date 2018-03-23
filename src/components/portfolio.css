@@ -1,8 +1,12 @@
 .center {
-    text-align: center
+  text-align: center;
 }
 
 .form {
-    text-align: center;
-    padding-bottom: 10px;
+  text-align: center;
+  padding-bottom: 10px;
+}
+
+.add-coin-button {
+  margin-top: 20px;
 }
