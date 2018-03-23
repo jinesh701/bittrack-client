@@ -81,6 +81,20 @@ a:hover {
   .footer-container {
     height: 390px;
   }
+
+  .contacts {
+    font-size: 18px;
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  .contacts {
+    font-size: 20px;
+  }
+
+  .icons {
+    margin-top: 60px;
+  }
 }
 
 /*iPad*/

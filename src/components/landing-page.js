@@ -41,28 +41,30 @@ export function LandingPage(props) {
 
       <div className="footer-container">
         <p className="contacts">Contact</p>
-        <div className="icon1">
-          <a
-            href="https://github.com/jinesh701"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            <FontAwesomeIcon size="3x" icon={faGithub} />
-          </a>
-        </div>
-        <div className="icon2">
-          <a
-            href="https://www.linkedin.com/in/jineshpatel1"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            <FontAwesomeIcon size="3x" icon={faLinkedin} />
-          </a>
-        </div>
-        <div className="icon3">
-          <a href="mailto:jinesh701@gmail.com">
-            <FontAwesomeIcon size="3x" icon={faEnvelope} />
-          </a>
+        <div className="icons">
+          <div className="icon1">
+            <a
+              href="https://github.com/jinesh701"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              <FontAwesomeIcon size="3x" icon={faGithub} />
+            </a>
+          </div>
+          <div className="icon2">
+            <a
+              href="https://www.linkedin.com/in/jineshpatel1"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              <FontAwesomeIcon size="3x" icon={faLinkedin} />
+            </a>
+          </div>
+          <div className="icon3">
+            <a href="mailto:jinesh701@gmail.com">
+              <FontAwesomeIcon size="3x" icon={faEnvelope} />
+            </a>
+          </div>
         </div>
       </div>
     </div>
