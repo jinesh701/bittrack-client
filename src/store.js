@@ -3,6 +3,7 @@ import { reducer as formReducer } from 'redux-form';
 import promise from 'redux-promise';
 import thunk from 'redux-thunk';
 import { loadAuthToken } from './local-storage';
+import navReducer from './reducers/navReducer';
 import authReducer from './reducers/authReducer';
 import portfolioReducer from './reducers/portfolioReducer';
 import watchlistReducer from './reducers/watchlistReducer';
@@ -10,6 +11,7 @@ import { setAuthToken, refreshAuthToken } from './actions/auth';
 
 const store = createStore(
   combineReducers({
+    nav: navReducer,
     form: formReducer,
     auth: authReducer,
     portfolio: portfolioReducer,
