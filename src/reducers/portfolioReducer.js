@@ -32,7 +32,7 @@ export default function reducer(state = initialState, action) {
       coinData: [...state.coinData.filter((coin, i) => i !== action.index)]
     });
   } else if (action.type === actions.SELECT_HOLDINGS) {
-    if (Number.isInteger(Number(action.holdings))) {
+    if (!isNaN(action.holdings)) {
       return Object.assign({}, state, {
         selectHoldings: action.holdings
       });
