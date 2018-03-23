@@ -34,6 +34,12 @@ export class LoginForm extends React.Component {
         className="login-form"
         onSubmit={this.props.handleSubmit(values => this.onSubmit(values))}
       >
+        <p className="demo-header">Demo user</p>
+        <div className="demo-span">
+          <span className="demo">Username: demo, </span>
+          <span className="demo">Password: demodemo</span>
+        </div>
+
         {error}
         <div className="username-div">
           <Field
