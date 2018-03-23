@@ -62,7 +62,7 @@ export class Watchlist extends React.Component {
     event.preventDefault();
 
     this.props.fetchCoins(this.props.watchlist.selectedValue);
-    this.props.watchlist.selectedValue = '';
+    this.props.selectedCurrency('');
   }
 
   handleRemove(id, index) {

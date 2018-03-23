@@ -65,17 +65,21 @@ export class Portfolio extends React.Component {
   handleSubmit(event) {
     event.preventDefault();
 
-    if (this.props.portfolio.selectedValue === '') {
+    if (this.props.portfolio.selectHoldings === '') {
       this.props.addCoinFail('this field is required');
       return;
+    } else if (this.props.portfolio.selectHoldings === '0') {
+      this.props.addCoinFail('enter a value greater than 0');
+      return;
     }
+
     this.props.addToPortfolio(
       this.props.portfolio.selectedValue,
       this.props.portfolio.selectHoldings
     );
-    this.props.portfolio.errorText = '';
-    this.props.portfolio.selectedValue = '';
-    this.props.portfolio.selectHoldings = '';
+    this.props.addCoinFail('');
+    this.props.selectedPortfolioCurrency('');
+    this.props.selectHoldings('');
   }
 
   handleRemove(id, index) {
@@ -137,9 +141,7 @@ export class Portfolio extends React.Component {
     return (
       <div>
         <h3 className="center">
-          Portfolio Value: ${this.portfolioValueUsd(
-            this.props.portfolio.coinData
-          ).toLocaleString()}
+          Portfolio Value: ${this.portfolioValueUsd(this.props.portfolio.coinData).toLocaleString()}
           <br />
           <br />
           ฿{this.portfolioValueBtc(this.props.portfolio.coinData)}
@@ -163,22 +165,30 @@ export class Portfolio extends React.Component {
             noResultsText="No coin found"
           />
 
-          <TextField
-            hintText="Enter the amount owned"
-            floatingLabelText="Amount brought"
-            min="0.01"
-            step="any"
-            type="text"
-            name="holdings"
-            id="holdings"
-            onChange={e => this.props.selectHoldings(e.target.value)}
-            value={this.props.portfolio.selectHoldings}
-            errorText={this.props.portfolio.errorText}
-            floatingLabelShrinkStyle={{ color: '#673ab7' }}
-            underlineFocusStyle={{ borderColor: '#673ab7' }}
-          />
+          <div className="holdings-input-div">
+            <TextField
+              hintText="Enter the amount owned"
+              floatingLabelText="Amount brought"
+              style={{ textAlign: 'center' }}
+              type="text"
+              pattern="[0-9]+([\.,][0-9]+)?"
+              step="0.1"
+              name="holdings"
+              id="holdings"
+              onChange={e => this.props.selectHoldings(e.target.value)}
+              value={this.props.portfolio.selectHoldings}
+              errorText={this.props.portfolio.errorText}
+              floatingLabelShrinkStyle={{ color: '#673ab7' }}
+              underlineFocusStyle={{ borderColor: '#673ab7' }}
+              errorStyle={{
+                width: 250,
+                textAlign: 'center',
+                float: 'left'
+              }}
+            />
+          </div>
 
-          <div>
+          <div className="add-coin-button">
             <RaisedButton
               type="submit"
               label="Add Coin"
