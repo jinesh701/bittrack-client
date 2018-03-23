@@ -37,6 +37,11 @@ export function LandingPage(props) {
             <RaisedButton label="Get started" style={style} />
           </Link>
         </div>
+        <div className="button">
+          <Link to="/login">
+            <RaisedButton label="Demo" style={style} />
+          </Link>
+        </div>
       </div>
 
       <div className="footer-container">
