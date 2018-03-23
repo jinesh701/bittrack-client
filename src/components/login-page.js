@@ -5,15 +5,12 @@ import { Redirect } from 'react-router-dom';
 
 import LoginForm from './login-form';
 
-import './login-page.css';
-
 export function LoginPage(props) {
   if (props.loggedIn) {
     return <Redirect to="/dashboard" />;
   }
   return (
     <div className="home">
-      <h2 className="title">Login</h2>
       <LoginForm />
     </div>
   );
