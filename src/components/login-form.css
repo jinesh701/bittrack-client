@@ -5,7 +5,7 @@
   padding-top: 40px;
   padding-bottom: 45px;
   width: 300px;
-  height: 253px;
+  height: 300px;
   text-align: center;
   box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px;
   border-radius: 2px;
@@ -39,4 +39,9 @@
 
 .demo-span {
   margin-top: -10px;
+}
+
+.form-error {
+  padding-top: 20px;
+  color: red;
 }
