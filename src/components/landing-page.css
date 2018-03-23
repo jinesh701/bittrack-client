@@ -82,3 +82,35 @@ a:hover {
     height: 390px;
   }
 }
+
+/*iPad*/
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
+  .row-container {
+    margin-top: 200px;
+    height: 520px;
+  }
+
+  .footer-container {
+    height: 300px;
+  }
+}
+
+/*iPad Pro*/
+@media only screen and (min-device-width: 1024px) and (max-device-width: 1366px) and (-webkit-min-device-pixel-ratio: 1.5) {
+  .image-size {
+    width: 300px;
+  }
+
+  .contacts {
+    padding-top: 150px;
+  }
+
+  .row-container {
+    margin-top: 250px;
+    height: 520px;
+  }
+
+  .footer-container {
+    height: 400px;
+  }
+}
